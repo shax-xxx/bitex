@@ -38,7 +38,6 @@ class BtfxFormatter(Formatter):
 
     @staticmethod
     def order_book(data, *args, **kwargs):
-        print('formatter: order_book')
         ret = {'asks': [], 'bids': []}
         for i in data['asks']: ret['asks'].append([i['price'], i['amount']])
         for i in data['bids']: ret['bids'].append([i['price'], i['amount']])
