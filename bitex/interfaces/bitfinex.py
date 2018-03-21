@@ -17,12 +17,12 @@ log = logging.getLogger(__name__)
 
 
 class Bitfinex(BitfinexREST):
-    def __init__(self, key='', secret='', api_version='v1', key_file='', websocket=False):
+    def __init__(self, key='', secret='', api_version='v1', key_file='', websocket=False, pairs=None):
         super(Bitfinex, self).__init__(key, secret)
         if key_file:
             self.load_key(key_file)
         if websocket:
-            self.wss = BitfinexWSS()
+            self.wss = BitfinexWSS(pairs=pairs)
             self.wss.start()
         else:
             self.wss = None
