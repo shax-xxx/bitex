@@ -31,3 +31,19 @@ class BtfxFormatter(Formatter):
     @staticmethod
     def order_status(data, *args, **kwargs):
         return data['is_live']
+
+    @staticmethod
+    def pairs(data, *args, **kwargs):
+        return list(map(str.upper, data))
+
+    @staticmethod
+    def order_book(data, *args, **kwargs):
+        print('formatter: order_book')
+        ret = {'asks': [], 'bids': []}
+        for i in data['asks']: ret['asks'].append([i['price'], i['amount']])
+        for i in data['bids']: ret['bids'].append([i['price'], i['amount']])
+        try:
+            return ret
+        except KeyError:
+            return False
+

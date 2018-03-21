@@ -18,9 +18,9 @@ log = logging.getLogger(__name__)
 
 class HitBTCWSS(WSSAPI):
     def __init__(self, key=None, secret=None):
-        data_addr = 'ws://api.hitbtc.com:80'
+        data_addr = 'wss://api.hitbtc.com'
         super(HitBTCWSS, self).__init__(data_addr, 'HitBTC')
-        self.trader_addr = 'ws://api.hitbtc.com:8080'
+        self.trader_addr = 'wss://api.hitbtc.com'
 
         self.data_thread = None
         self.supervisor_thread = None
@@ -59,7 +59,7 @@ class HitBTCWSS(WSSAPI):
 
     def _data_thread(self):
         try:
-            conn = create_connection(self.addr)
+            conn = create_connection(self.addr,http_proxy_host="127.0.0.1", http_proxy_port=1087)
         except Exception:
             self._controller_q.put('restart_data')
             return

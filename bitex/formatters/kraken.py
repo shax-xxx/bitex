@@ -94,6 +94,10 @@ class KrknFormatter(Formatter):
             return False
 
     @staticmethod
+    def pairs(data, *args, **kwargs):
+        return list(data['result'].keys())
+
+    @staticmethod
     def order_book(data, *args, **kwargs):
         pair = args[1]
 

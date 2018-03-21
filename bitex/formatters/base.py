@@ -31,6 +31,10 @@ class Formatter:
         return input_pair
 
     @staticmethod
+    def pairs(data, *args, **kwargs):
+        return data
+
+    @staticmethod
     def ticker(data, *args, **kwargs):
         """
         Returns list of ticker data in following format:

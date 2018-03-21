@@ -37,6 +37,7 @@ class BitfinexREST(APIClient):
         else:
             data = '/api/' + endpoint_path + self.nonce() + json.dumps(req)
         h = hmac.new(self.secret.encode('utf8'), data, hashlib.sha384)
+        #h = hmac.new(self.secret.encode('utf8'), bytes(data,encoding='utf-8'), hashlib.sha384)
         signature = h.hexdigest()
         headers = {"X-BFX-APIKEY": self.key,
                    "X-BFX-SIGNATURE": signature,

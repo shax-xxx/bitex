@@ -112,7 +112,7 @@ class Kraken(KrakenREST):
     def assets(self, **kwargs):
         return self.public_query('Assets', params=kwargs)
 
-    @return_api_response(None)
+    @return_api_response(fmt.pairs)
     def pairs(self, **kwargs):
         return self.public_query('AssetPairs', params=kwargs)
 

@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 
 
 class Bitfinex(BitfinexREST):
-    def __init__(self, key='', secret='', key_file='', websocket=False):
+    def __init__(self, key='', secret='', api_version='v1', key_file='', websocket=False):
         super(Bitfinex, self).__init__(key, secret)
         if key_file:
             self.load_key(key_file)
@@ -118,7 +118,7 @@ class Bitfinex(BitfinexREST):
     def lends(self, currency, **kwargs):
         return self.public_query('lends/%s' % currency, params=kwargs)
 
-    @return_api_response(None)
+    @return_api_response(fmt.pairs)
     def pairs(self, details=False):
         if details:
             return self.public_query('symbols_details')

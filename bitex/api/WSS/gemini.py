@@ -49,12 +49,13 @@ class GeminiWSS(WSSAPI):
         :return:
         """
         try:
-            conn = create_connection(self.addr + endpoint, timeout=5)
+            conn = create_connection(self.addr + endpoint, timeout=5, http_proxy_host=None, http_proxy_port=1087)
         except WebSocketTimeoutException:
             self.restart_q.put(endpoint)
             return
 
         while self.threads_running[endpoint]:
+            msg=''
             try:
                 msg = conn.recv()
             except WebSocketTimeoutException:

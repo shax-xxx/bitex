@@ -18,8 +18,8 @@ log = logging.getLogger(__name__)
 
 
 class HitBtc(HitBTCREST):
-    def __init__(self, key='', secret='', key_file='', websocket=False):
-        super(HitBtc, self).__init__(key, secret)
+    def __init__(self, api_version='1', key='', secret='', key_file='', websocket=False):
+        super(HitBtc, self).__init__(key, secret, api_version)
         if key_file:
             self.load_key(key_file)
         if websocket:
@@ -46,7 +46,11 @@ class HitBtc(HitBTCREST):
     @return_api_response(fmt.order_book)
     def order_book(self, pair, **kwargs):
         q = kwargs
-        return self.public_query('api/%s/orderbook' % pair, params=q)
+        return self.public_query('orderbook/%s' % pair, params=q)
+
+    @return_api_response(fmt.pairs)
+    def pairs(self, **kwargs):
+        return self.public_query('symbol', params=kwargs)
 
     @return_api_response(fmt.ticker)
     def ticker(self, pair, **kwargs):
