@@ -21,3 +21,5 @@ from bitex.interface import Cryptopia, HitBTC, Kraken, OKCoin, Poloniex, Quadrig
 from bitex.interface import TheRockTrading, Vaultoro
 from bitex.pairs import BTCUSD, ZECUSD, XMRUSD, ETCUSD, ETHUSD, DASHUSD
 from bitex.formatters import APIResponse
+from bitex._version import __version__
+version=__version__
