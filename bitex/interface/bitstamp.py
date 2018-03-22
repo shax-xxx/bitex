@@ -30,7 +30,7 @@ class Bitstamp(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        resp = requests.request('GET', 'https://www.bitstamp.net/api/v2/trading-pairs-info/')
+        resp=super(Bitstamp, self).request('GET', 'https://www.bitstamp.net/api/v2/trading-pairs-info/', endpointwithversion=True)
         return [pair["name"].replace("/", "").lower() for pair in resp.json()]
 
     def request(self, endpoint, authenticate=False, **kwargs):
