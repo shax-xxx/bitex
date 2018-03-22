@@ -30,7 +30,12 @@ class KrakenFormattedResponse(APIResponse):
 
     def order_book(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        pair = self.method_args[1]
+        data = self.json()['result'][pair]
+        bids = data['bids']
+        asks = data['asks']
+        timestamp = datetime.utcnow()
+        return super(KrakenFormattedResponse, self).order_book(bids, asks, timestamp)
 
     def trades(self):
         """Return namedtuple with given data."""
