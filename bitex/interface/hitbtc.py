@@ -117,4 +117,7 @@ class HitBTC(RESTInterface):
     @format_with(HitBTCFormattedResponse)
     def wallet(self, *args, **kwargs):
         """Return the account's wallet."""
-        return self.request('balance', authenticate=True, params=kwargs)
+        if self.REST.version == '1':
+            return self.request('payment/balance', authenticate=True, params=kwargs)
+        else:
+            return self.request('account/balance', authenticate=True, params=kwargs)
