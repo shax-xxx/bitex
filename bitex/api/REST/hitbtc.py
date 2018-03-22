@@ -20,7 +20,7 @@ class HitBTCREST(RESTAPI):
                  addr=None, timeout=5, config=None):
         """Initialize the class instance."""
         version = '1' if not version else version
-        addr = 'http://api.hitbtc.com/api' if not addr else addr
+        addr = 'https://api.hitbtc.com/api' if not addr else addr
         super(HitBTCREST, self).__init__(addr=addr, version=version,
                                          key=key, secret=secret,
                                          timeout=timeout, config=config)
