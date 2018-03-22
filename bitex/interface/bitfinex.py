@@ -10,7 +10,7 @@ from bitex.api.REST.bitfinex import BitfinexREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_version_compatibility, check_and_format_pair, format_with
 from bitex.formatters import BitfinexFormattedResponse
-
+proxies={"http": "http://127.0.0.1:1087", "https": "http://127.0.0.1:1087"}
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 
@@ -57,7 +57,7 @@ class Bitfinex(RESTInterface):
         """Return supported pairs."""
         if self.REST.version == 'v1':
             return self.symbols().json()
-        return requests.get('https://api.bitfinex.com/v1/symbols').json()
+        return requests.get('https://api.bitfinex.com/v1/symbols',proxies=proxies).json()
 
     ###############
     # Basic Methods
@@ -71,8 +71,7 @@ class Bitfinex(RESTInterface):
         if self.REST.version == 'v1':
             return self.request('book/%s' % pair, params=endpoint_kwargs)
         prec = endpoint_kwargs.pop('Precision', 'P0')
-        return self.request('book/%s/%s' % (pair, prec),
-                            params=endpoint_kwargs)
+        return self.request('book/t%s/%s' % (pair, prec), params=endpoint_kwargs)
 
     @format_with(BitfinexFormattedResponse)
     @check_and_format_pair
