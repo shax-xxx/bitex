@@ -24,7 +24,10 @@ class HitBTC(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        r = requests.get('https://api.hitbtc.com/api/2/public/symbol')
+        if self.REST.version=='1':
+            r = super(HitBTC, self).request('GET', 'http://api.hitbtc.com/api/2/public/symbol',endpointwithversion=True)
+        else:
+            r = super(HitBTC, self).request('GET','public/symbol')
         return [entry['id'] for entry in r.json()]
 
     # pylint: disable=arguments-differ
@@ -48,7 +51,10 @@ class HitBTC(RESTInterface):
     @format_with(HitBTCFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
-        return self.request('%s/orderbook' % pair, params=kwargs)
+        if self.REST.version=='1':
+            return self.request('%s/orderbook' % pair, params=kwargs) # Version 1
+        else:
+            return self.request('orderbook/%s' % pair, params=kwargs) # Version 2
 
     @check_and_format_pair
     @format_with(HitBTCFormattedResponse)
