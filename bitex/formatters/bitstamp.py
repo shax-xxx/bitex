@@ -28,7 +28,8 @@ class BitstampFormattedResponse(APIResponse):
 
     def order_book(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()
+        return super(BitstampFormattedResponse, self).order_book(data['bids'], data['asks'], data['timestamp'])
 
     def trades(self):
         """Return namedtuple with given data."""
@@ -86,5 +87,6 @@ class BitstampFormattedResponse(APIResponse):
 
     def wallet(self):
         """Return namedtuple with given data."""
-        data = self.json(parse_int=str, parse_float=str)
-        return super(BitstampFormattedResponse, self).wallet(data, self.received_at)
+        raise NotImplementedError
+        # data = self.json(parse_int=str, parse_float=str)
+        # return super(BitstampFormattedResponse, self).wallet(data, self.received_at)
