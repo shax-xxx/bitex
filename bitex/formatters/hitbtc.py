@@ -31,7 +31,19 @@ class HitBTCFormattedResponse(APIResponse):
 
     def order_book(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        pair = self.method_args[1]
+        data = self.json()
+        if 'asks' in data: # api version 1
+            bids = data['bids']
+            asks = data['asks']
+        else:        # api version 2
+            bids=[]
+            for i in data['bid']:bids.append([i['price'],i['size']])
+            asks=[]
+            for i in data['ask']:asks.append([i['price'],i['size']])
+
+        timestamp = datetime.utcnow()
+        return super(HitBTCFormattedResponse, self).order_book(bids, asks, timestamp)
 
     def trades(self):
         """Return namedtuple with given data."""
