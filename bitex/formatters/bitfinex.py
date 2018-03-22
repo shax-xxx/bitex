@@ -29,7 +29,21 @@ class BitfinexFormattedResponse(APIResponse):
 
     def order_book(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        pair = self.method_args[1]
+        data = self.json()
+        bids = []
+        asks = []
+        if 'bids' in data: # api version 1
+            for i in data['bids']:bids.append([i['price'],i['amount'],i['timestamp']])
+            for i in data['asks']:asks.append([i['price'],i['amount'],i['timestamp']])
+        else:   # api version 2
+            for i in data:
+                if float(i[2])>0:
+                    bids.append([float(i[0]), float(i[2])])
+                else:
+                    asks.append([float(i[0]),-float(i[2])])
+        timestamp = datetime.utcnow()
+        return super(BitfinexFormattedResponse, self).order_book(bids, asks, timestamp)
 
     def trades(self):
         """Return namedtuple with given data."""
