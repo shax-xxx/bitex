@@ -43,7 +43,6 @@ class RESTAPI(BaseAPI):
         :param endpoint: str, endpoint path (i.e. /market/btcusd)
         :return: str, URI
         """
-        print('/' + join_path(self.version or '', endpoint).replace('\\', '/'))
         return '/' + join_path(self.version or '', endpoint).replace('\\', '/')
 
     def generate_url(self, uri):
@@ -53,7 +52,6 @@ class RESTAPI(BaseAPI):
         :param uri: str, URI
         :return: str, URL
         """
-        print(self.addr+uri)
         return self.addr + uri
 
     def sign_request_kwargs(self, endpoint, **kwargs):
@@ -116,4 +114,8 @@ class RESTAPI(BaseAPI):
         :return: request.Response() object
         """
         request_kwargs['url'] = self.generate_url(self.generate_uri(endpoint))
+        if 'endpointwithversion' in request_kwargs:
+            if request_kwargs['endpointwithversion']:
+                request_kwargs['url']=endpoint
+                del request_kwargs['endpointwithversion']
         return self._query(method_verb, **request_kwargs)
