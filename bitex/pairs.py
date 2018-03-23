@@ -60,7 +60,11 @@ class PairFormatter:
                            'Vaultoro': self.vaultoro_formatter,
                            'Bter': self.bter_formatter,
                            'Yunbi': self.yunbi_formatter,
-                           "Binance": self.binance_formatter}
+                           "Binance": self.binance_formatter,
+                           'Bithumb': self.bithumb_formatter,
+                           'Coinone': self.coinone_formatter,
+                           'CEXio': self.cexio_formatter,
+                           }
 
     def __str__(self, *args, **kwargs):
         """Return the stored base and quote currency in proper pair format."""
@@ -102,6 +106,18 @@ class PairFormatter:
     def bitstamp_formatter(base, quote):
         """Format currencies for Bitstamp."""
         return base.lower() + quote.lower()
+
+    @staticmethod
+    def bithumb_formatter(base, quote):
+        return base.upper()+quote.upper()
+
+    @staticmethod
+    def coinone_formatter(base, quote):
+        return base.upper() + quote.upper()
+
+    @staticmethod
+    def cexio_formatter(base, quote):
+        return [base.upper(),quote.upper()]
 
     @staticmethod
     def bitfinex_formatter(base, quote):
@@ -224,6 +240,9 @@ class PairFormatter:
         (base, quote) = pair.split('_')
         return quote.upper() + base.upper()
 
+class BTCKRWFormatter(PairFormatter):
+    def __init__(self):
+        super(BTCKRWFormatter, self).__init__('BTC', 'KRW')
 
 class BTCUSDFormatter(PairFormatter):
     """BTC/USD PairFormatter object."""
@@ -345,6 +364,7 @@ class XRPUSDFormatter(PairFormatter):
         super(XRPUSDFormatter, self).__init__('XRP', 'USD')
 
 
+BTCKRW = BTCKRWFormatter()
 BTCUSD = BTCUSDFormatter()
 ETHUSD = ETHUSDFormatter()
 XMRUSD = XMRUSDFormatter()

@@ -18,3 +18,6 @@ from bitex.formatters.quadriga import QuadrigaCXFormattedResponse
 from bitex.formatters.quoine import QuoineFormattedResponse
 from bitex.formatters.rocktrading import RockTradingFormattedResponse
 from bitex.formatters.vaultoro import VaultoroFormattedResponse
+from bitex.formatters.bithumb import BithumbFormattedResponse
+from bitex.formatters.coinone import CoinoneFormattedResponse
+from bitex.formatters.cexio import CEXioFormattedResponse

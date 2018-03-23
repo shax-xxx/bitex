@@ -18,3 +18,6 @@ from bitex.api.REST.quadriga import QuadrigaCXREST
 from bitex.api.REST.quoine import QuoineREST
 from bitex.api.REST.rocktrading import RockTradingREST
 from bitex.api.REST.vaultoro import VaultoroREST
+from bitex.api.REST.bithumb import BithumbREST
+from bitex.api.REST.coinone import CoinoneREST
+from bitex.api.REST.cexio import CEXioREST

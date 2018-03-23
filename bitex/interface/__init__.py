@@ -17,3 +17,6 @@ from bitex.interface.quadriga import QuadrigaCX
 from bitex.interface.quoine import Quoine
 from bitex.interface.rocktrading import TheRockTrading
 from bitex.interface.vaultoro import Vaultoro
+from bitex.interface.bithumb import Bithumb
+from bitex.interface.coinone import Coinone
+from bitex.interface.cexio import CEXio
