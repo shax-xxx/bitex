@@ -86,7 +86,11 @@ class BitstampFormattedResponse(APIResponse):
         return super(BitstampFormattedResponse, self).open_orders(unpacked_orders, ts)
 
     def wallet(self):
-        """Return namedtuple with given data."""
-        raise NotImplementedError
-        # data = self.json(parse_int=str, parse_float=str)
-        # return super(BitstampFormattedResponse, self).wallet(data, self.received_at)
+        data = self.json(parse_int=str, parse_float=str)
+        balances={}
+        for i in data:
+            if i[-10:]=='_available':
+                available=float(data[i])
+                if available>0:
+                    balances[i[:-10].upper()]=data[i]
+        return super(BitstampFormattedResponse, self).wallet(balances, self.received_at)

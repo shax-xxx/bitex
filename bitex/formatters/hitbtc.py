@@ -16,15 +16,13 @@ class HitBTCFormattedResponse(APIResponse):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
 
-        curr_timestamp = datetime.utcfromtimestamp(float(data["timestamp"]) / 1000)
-
         bid = data["bid"]
         ask = data["ask"]
         high = data["high"]
         low = data["low"]
         last = data["last"]
         volume = data["volume"]
-        timestamp = curr_timestamp
+        timestamp = datetime.strptime(data['timestamp'][:-5],"%Y-%m-%dT%H:%M:%S")
 
         return super(HitBTCFormattedResponse, self).ticker(bid, ask, high, low, last, volume,
                                                            timestamp)
@@ -70,5 +68,10 @@ class HitBTCFormattedResponse(APIResponse):
         raise NotImplementedError
 
     def wallet(self):
-        """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json(parse_int=str, parse_float=str)
+        balances={}
+        for i in data:
+            available=float(i['available'])
+            if (available>0)|(i['currency']=='BTC'):
+                balances[i['currency']]=available
+        return super(HitBTCFormattedResponse, self).wallet(balances, self.received_at)

@@ -70,5 +70,6 @@ class BitfinexFormattedResponse(APIResponse):
         raise NotImplementedError
 
     def wallet(self):
-        """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json(parse_int=str, parse_float=str)
+        balances = {(d['currency']).upper(): d['amount'] for d in data}
+        return super(BitfinexFormattedResponse, self).wallet(balances, self.received_at)
