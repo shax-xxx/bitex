@@ -45,7 +45,10 @@ class HitBTC(RESTInterface):
     @format_with(HitBTCFormattedResponse)
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
-        return self.request('%s/ticker' % pair, params=kwargs)
+        if self.REST.version=='1':
+            return self.request('%s/ticker' % pair, params=kwargs)
+        else:
+            return self.request('ticker/%s' % pair, params=kwargs)
 
     @check_and_format_pair
     @format_with(HitBTCFormattedResponse)
