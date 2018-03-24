@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 class CoinoneREST(RESTAPI):
     """BitHumb REST API class."""
 
-    def __init__(self, addr=None, key=None, secret=None, version=None, config=None, timeout=None):
+    def __init__(self, addr=None, key=None, secret=None, version=None, config=None, timeout=None,user_id=None):
         """Initialize the class instance."""
         addr = 'https://api.coinone.co.kr' if not addr else addr
         super(CoinoneREST, self).__init__(addr=addr, version=version, key=key,

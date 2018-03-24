@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 class BinanceREST(RESTAPI):
     """Bitfinex REST API class."""
 
-    def __init__(self, key=None, secret=None, version=None, addr=None, timeout=None, config=None):
+    def __init__(self, key=None, secret=None, version=None, addr=None, timeout=None, config=None,user_id=None):
         """Initialize the class instance."""
         addr = 'https://api.binance.com/api'
         # We force version to None here as different endpoints require different versions,

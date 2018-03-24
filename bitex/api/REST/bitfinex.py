@@ -23,7 +23,7 @@ class BitfinexREST(RESTAPI):
     """Bitfinex REST API class."""
 
     def __init__(self, addr=None, key=None, secret=None,
-                 version=None, config=None, timeout=None):
+                 version=None, config=None, timeout=None,user_id=None):
         """Initialize the class instance."""
         addr = 'https://api.bitfinex.com' if not addr else addr
         version = 'v1' if not version else version
