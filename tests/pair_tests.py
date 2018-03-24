@@ -17,9 +17,9 @@ class PairTests(unittest.TestCase):
         # This excludes edge cases, which are tested separately
         self.assertEqual(pair.format_for('Kraken'), 'XXBTZUSD')
         self.assertEqual(pair.format_for('Bitstamp'), 'btcusd')
-        self.assertEqual(pair.format_for('Bitfinex'), 'btcusd')
-        self.assertEqual(pair.format_for('Binance'), 'BTCUSD')
-        self.assertEqual(pair.format_for('Bittrex'), 'USD-BTC')
+        self.assertEqual(pair.format_for('Bitfinex'), 'BTCUSD')
+        self.assertEqual(pair.format_for('Binance'), 'BTCUSDT')
+        self.assertEqual(pair.format_for('Bittrex'), 'USDT-BTC')
         self.assertEqual(pair.format_for('CoinCheck'), 'btc_usd')
         self.assertEqual(pair.format_for('GDAX'), 'BTC-USD')
         self.assertEqual(pair.format_for('ITBit'), 'XBTUSD')
@@ -35,6 +35,9 @@ class PairTests(unittest.TestCase):
         self.assertEqual(pair.format_for('HitBTC'), 'BTCUSD')
         self.assertEqual(pair.format_for('Vaultoro'), 'BTC-USD')
         self.assertEqual(pair.format_for('Bter'), 'btc_usd')
+        self.assertEqual(pair.format_for('Bithumb'), 'BTCUSD')
+        self.assertEqual(pair.format_for('Coinone'), 'BTCUSD')
+        self.assertEqual(pair.format_for('CEXio'), 'btc_usd')
 
         # Assert that calling the formatter returns the standard presentation
         self.assertEqual(str(pair), 'BTCUSD')

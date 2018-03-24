@@ -21,3 +21,5 @@ from bitex.api.REST.vaultoro import VaultoroREST
 from bitex.api.REST.bithumb import BithumbREST
 from bitex.api.REST.coinone import CoinoneREST
 from bitex.api.REST.cexio import CEXioREST
+from bitex.api.REST.exmo import ExmoREST
+from bitex.api.REST.coinnest import CoinnestREST

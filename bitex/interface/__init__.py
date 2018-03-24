@@ -20,3 +20,5 @@ from bitex.interface.vaultoro import Vaultoro
 from bitex.interface.bithumb import Bithumb
 from bitex.interface.coinone import Coinone
 from bitex.interface.cexio import CEXio
+from bitex.interface.exmo import Exmo
+from bitex.interface.coinnest import Coinnest

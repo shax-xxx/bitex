@@ -21,3 +21,5 @@ from bitex.formatters.vaultoro import VaultoroFormattedResponse
 from bitex.formatters.bithumb import BithumbFormattedResponse
 from bitex.formatters.coinone import CoinoneFormattedResponse
 from bitex.formatters.cexio import CEXioFormattedResponse
+from bitex.formatters.exmo import ExmoFormattedResponse
+from bitex.formatters.coinnest import CoinnestFormattedResponse
