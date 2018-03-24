@@ -34,7 +34,7 @@ class Bithumb(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        pairs=['BTCKRW', 'ETHKRW', 'DASHKRW', 'LTCKRW', 'ETCKRW', 'XRPKRW', 'BCHKRW', 'XMRKRW', 'ZECKRW', 'QTUMKRW', 'BTGKRW', 'EOSKRW']
+        pairs=['BTC', 'ETH', 'DASH', 'LTC', 'ETC', 'XRP', 'BCH', 'XMR', 'ZEC', 'QTUM', 'BTG', 'EOS']
         return pairs
 
     ###############
@@ -43,18 +43,12 @@ class Bithumb(RESTInterface):
     @format_with(BithumbFormattedResponse)
     @check_and_format_pair
     def ticker(self, pair, *args, **kwargs):
-        """Return the ticker for the given pair."""
-        payload = {'market': pair}
-        payload.update(kwargs)
-        return self.request('public/ticker', params=payload)
+        return self.request('public/ticker/%s' % pair)
 
     @check_and_format_pair
     @format_with(BithumbFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
-        """Return the order book for the given pair."""
-        payload = {'market': pair, 'type': 'both'}
-        payload.update(kwargs)
-        return self.request('public/orderbook', params=payload)
+        return self.request('public/orderbook/%s' % pair)
 
     @check_and_format_pair
     @format_with(BithumbFormattedResponse)

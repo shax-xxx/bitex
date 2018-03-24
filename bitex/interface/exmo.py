@@ -1,4 +1,4 @@
-"""Bitstamp Interface class."""
+"""Exmo Interface class."""
 # pylint: disable=arguments-differ
 # Import Built-Ins
 import logging
@@ -7,36 +7,36 @@ import requests
 
 # Import Homebrew
 from bitex.exceptions import UnsupportedPairError
-from bitex.api.REST.bitstamp import BitstampREST
+from bitex.api.REST.exmo import ExmoREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
-from bitex.formatters import BitstampFormattedResponse
+from bitex.formatters import ExmoFormattedResponse
 
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 
 
-class Bitstamp(RESTInterface):
-    """Bitstamp REST API Interface Class.
+class Exmo(RESTInterface):
+    """Exmo REST API Interface Class.
 
-    Since Bitstamp doesn't make an explicit differentiation between api versions,
+    Since Exmo doesn't make an explicit differentiation between api versions,
     we do not use a version checker for this interface.
     """
 
     def __init__(self, **api_kwargs):
         """Initialize the Interface class instance."""
-        super(Bitstamp, self).__init__('Bitstamp', BitstampREST(**api_kwargs))
+        super(Exmo, self).__init__('Exmo', ExmoREST(**api_kwargs))
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        resp=super(Bitstamp, self).request('GET', 'https://www.bitstamp.net/api/v2/trading-pairs-info/', endpointwithversion=True)
-        return [pair["name"].replace("/", "") for pair in resp.json()]
+        resp=self.request('v1/pair_settings/')
+        return [pair for pair in resp.json()]
 
     def request(self, endpoint, authenticate=False, **kwargs):
         """Generate a request to the API."""
         verb = 'POST' if authenticate else 'GET'
-        return super(Bitstamp, self).request(verb, endpoint, authenticate=authenticate, **kwargs)
+        return super(Exmo, self).request(verb, endpoint, authenticate=authenticate, **kwargs)
 
     ###############
     # Basic Methods
@@ -44,33 +44,33 @@ class Bitstamp(RESTInterface):
 
     # Public Endpoints
 
-    @check_and_format_pair
-    @format_with(BitstampFormattedResponse)
+    @check_and_format_pair # Exmo ticker response all pairs
+    @format_with(ExmoFormattedResponse)
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
-        return self.request('ticker/%s/' % pair, params=kwargs)
+        return self.request('v1/ticker/', params=kwargs)
 
     @check_and_format_pair
-    @format_with(BitstampFormattedResponse)
+    @format_with(ExmoFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
-        return self.request('order_book/%s/' % pair, params=kwargs)
+        return self.request('v1/order_book/?pair=%s' % pair, params=kwargs)
 
     @check_and_format_pair
-    @format_with(BitstampFormattedResponse)
+    @format_with(ExmoFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return trades for the given pair."""
         return self.request('transactions/%s/' % pair, params=kwargs)
 
     # Private Endpoints
     @check_and_format_pair
-    @format_with(BitstampFormattedResponse)
+    @format_with(ExmoFormattedResponse)
     def ask(self, pair, price, size, *args, market=False, **kwargs):
         """Place an ask order."""
         return self._place_order(pair, price, size, 'sell', market=market, **kwargs)
 
     @check_and_format_pair
-    @format_with(BitstampFormattedResponse)
+    @format_with(ExmoFormattedResponse)
     def bid(self, pair, price, size, *args, market=False, **kwargs):
         """Place a bid order."""
         return self._place_order(pair, price, size, 'buy', market=market, **kwargs)
@@ -83,21 +83,21 @@ class Bitstamp(RESTInterface):
             return self.request('%s/market/%s/' % (side, pair), authenticate=True, params=payload)
         return self.request('%s/%s/' % (side, pair), authenticate=True, params=payload)
 
-    @format_with(BitstampFormattedResponse)
+    @format_with(ExmoFormattedResponse)
     def order_status(self, order_id, *args, **kwargs):
         """Return the order status for the given order's ID."""
         payload = {'id': order_id}
         payload.update(kwargs)
         return self.request('api/order_status/', authenticate=True, params=payload)
 
-    @format_with(BitstampFormattedResponse)
+    @format_with(ExmoFormattedResponse)
     def open_orders(self, *args, pair=None, **kwargs):
         """Return all open orders."""
         if pair:
             return self.request('open_orders/%s/' % pair, authenticate=True, params=kwargs)
         return self.request('open_orders/all/', authenticate=True, params=kwargs)
 
-    @format_with(BitstampFormattedResponse)
+    @format_with(ExmoFormattedResponse)
     def cancel_order(self, *order_ids, **kwargs):
         """Cancel existing order(s) with the given id(s)."""
         results = []
@@ -108,7 +108,7 @@ class Bitstamp(RESTInterface):
             results.append(r)
         return results if len(results) > 1 else results[0]
 
-    @format_with(BitstampFormattedResponse)
+    @format_with(ExmoFormattedResponse)
     def wallet(self, *args, **kwargs):
         """Return account's wallet."""
         if 'pair' in kwargs:
@@ -118,7 +118,7 @@ class Bitstamp(RESTInterface):
                 pair = kwargs['pair']
 
             return self.request('balance/%s/' % pair, authenticate=True, params=kwargs)
-        return self.request('balance/', authenticate=True, params=kwargs)
+        return self.request('v1/user_info', authenticate=True, params=kwargs)
 
     ###########################
     # Exchange Specific Methods

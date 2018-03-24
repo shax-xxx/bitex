@@ -21,7 +21,7 @@ class CEXio(RESTInterface):
 
     def __init__(self, **api_kwargs):
         """Initialize Interface class instance."""
-        key = api_kwargs['key']
+        if 'key' in api_kwargs: key = api_kwargs['key']
         super(CEXio, self).__init__('CEXio', CEXioREST(**api_kwargs))
 
     def request(self, endpoint, authenticate=False, **req_kwargs):

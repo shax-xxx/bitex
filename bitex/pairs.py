@@ -64,6 +64,8 @@ class PairFormatter:
                            'Bithumb': self.bithumb_formatter,
                            'Coinone': self.coinone_formatter,
                            'CEXio': self.cexio_formatter,
+                           'Exmo': self.exmo_formatter,
+                           'Coinnest': self.coinnest_formatter,
                            }
 
     def __str__(self, *args, **kwargs):
@@ -105,19 +107,23 @@ class PairFormatter:
     @staticmethod
     def bitstamp_formatter(base, quote):
         """Format currencies for Bitstamp."""
-        return base.lower() + quote.lower()
+        return base + quote
 
     @staticmethod
     def bithumb_formatter(base, quote):
-        return base.upper()+quote.upper()
+        return base.upper()
 
     @staticmethod
     def coinone_formatter(base, quote):
-        return base.upper() + quote.upper()
+        return base.lower()
+
+    @staticmethod
+    def coinnest_formatter(base, quote):
+        return base.lower()
 
     @staticmethod
     def cexio_formatter(base, quote):
-        return [base.upper(),quote.upper()]
+        return base.upper()+quote.upper()
 
     @staticmethod
     def bitfinex_formatter(base, quote):
@@ -146,6 +152,11 @@ class PairFormatter:
     def coincheck_formatter(base, quote):
         """Format currencies for CoinCheck."""
         return base.lower() + '_' + quote.lower()
+
+    @staticmethod
+    def exmo_formatter(base, quote):
+        """Format currencies for CoinCheck."""
+        return base.upper() + '_' + quote.upper()
 
     @staticmethod
     def gdax_formatter(base, quote):

@@ -21,7 +21,7 @@ class Coinone(RESTInterface):
 
     def __init__(self, **api_kwargs):
         """Initialize Interface class instance."""
-        key = api_kwargs['key']
+        if 'key' in api_kwargs: key = api_kwargs['key']
         super(Coinone, self).__init__('Coinone', CoinoneREST(**api_kwargs))
 
     def request(self, endpoint, authenticate=False, **req_kwargs):
@@ -35,7 +35,7 @@ class Coinone(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        pairs=['BTCKRW', 'BCHKRW', 'ETHKRW', 'ETCKRW', 'XRPKRW', 'QTUMKRW', 'LTCKRW', 'IOTAKRW', 'BTGKRW']
+        pairs=["btc","bch","eth","etc","xrp","qtum","iota","ltc","btg"]
         return pairs
 
     ###############
@@ -45,23 +45,25 @@ class Coinone(RESTInterface):
     @check_and_format_pair
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
-        payload = {'market': pair}
-        payload.update(kwargs)
-        return self.request('ticker/', params=payload)
+        return self.request('ticker?currency=%s' % pair)
+        #payload = {'currency': pair}
+        #payload.update(kwargs)
+        #return self.request('ticker', params=payload)
 
     @check_and_format_pair
     @format_with(CoinoneFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
-        payload = {'market': pair, 'type': 'both'}
-        payload.update(kwargs)
-        return self.request('orderbook/', params=payload)
+        return self.request('orderbook?currency=%s' % pair)
+        #payload = {'currency': pair}
+        #payload.update(kwargs)
+        #return self.request('orderbook', params=payload)
 
     @check_and_format_pair
     @format_with(CoinoneFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return the trades for the given pair."""
-        payload = {'market': pair}
+        payload = {'currency': pair}
         payload.update(kwargs)
         return self.request('trades/', params=payload)
 
