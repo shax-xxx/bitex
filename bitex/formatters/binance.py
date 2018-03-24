@@ -28,8 +28,10 @@ class BinanceFormattedResponse(APIResponse):
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        bids = data['bids']
-        asks = data['asks']
+        asks=[]
+        bids=[]
+        for i in data['asks']:asks.append([float(i[0]),float(i[1])])
+        for i in data['bids']:bids.append([float(i[0]),float(i[1])])
         timestamp = datetime.utcnow()
         return super(BinanceFormattedResponse, self).order_book(bids, asks, timestamp)
 

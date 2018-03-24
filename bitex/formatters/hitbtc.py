@@ -35,10 +35,10 @@ class HitBTCFormattedResponse(APIResponse):
             bids = data['bids']
             asks = data['asks']
         else:        # api version 2
-            bids=[]
-            for i in data['bid']:bids.append([i['price'],i['size']])
             asks=[]
-            for i in data['ask']:asks.append([i['price'],i['size']])
+            bids=[]
+            for i in data['ask']: asks.append([float(i['price']), float(i['size'])])
+            for i in data['bid']: bids.append([float(i['price']), float(i['size'])])
 
         timestamp = datetime.utcnow()
         return super(HitBTCFormattedResponse, self).order_book(bids, asks, timestamp)

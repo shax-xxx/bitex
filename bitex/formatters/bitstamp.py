@@ -29,7 +29,12 @@ class BitstampFormattedResponse(APIResponse):
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        return super(BitstampFormattedResponse, self).order_book(data['bids'], data['asks'], data['timestamp'])
+        asks=[]
+        bids=[]
+        for i in data['asks']: asks.append([float(i[0]), float(i[1])])
+        for i in data['bids']: bids.append([float(i[0]), float(i[1])])
+
+        return super(BitstampFormattedResponse, self).order_book(bids, asks, int(data['timestamp']))
 
     def trades(self):
         """Return namedtuple with given data."""

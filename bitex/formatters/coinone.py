@@ -34,10 +34,10 @@ class CoinoneFormattedResponse(APIResponse):
         """Return namedtuple with given data."""
         data=self.json()
         asks=[]
-        for i in data['ask']: asks.append([i['price'],i['qty']])
         bids=[]
-        for i in data['bid']: bids.append([i['price'],i['qty']])
-        return super(CoinoneFormattedResponse, self).order_book(bids, asks, data['timestamp'])
+        for i in data['ask']: asks.append([float(i['price']),float(i['qty'])])
+        for i in data['bid']: bids.append([float(i['price']),float(i['qty'])])
+        return super(CoinoneFormattedResponse, self).order_book(bids, asks, int(data['timestamp']))
 
     def trades(self):
         """Return namedtuple with given data."""

@@ -31,11 +31,11 @@ class BitfinexFormattedResponse(APIResponse):
         """Return namedtuple with given data."""
         pair = self.method_args[1]
         data = self.json()
-        bids = []
         asks = []
+        bids = []
         if 'bids' in data: # api version 1
-            for i in data['bids']:bids.append([i['price'],i['amount'],i['timestamp']])
-            for i in data['asks']:asks.append([i['price'],i['amount'],i['timestamp']])
+            for i in data['asks']:asks.append([float(i['price']),float(i['amount'])]) #,i['timestamp']])
+            for i in data['bids']:bids.append([float(i['price']),float(i['amount'])]) #,i['timestamp']])
         else:   # api version 2
             for i in data:
                 if float(i[2])>0:

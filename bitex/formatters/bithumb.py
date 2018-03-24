@@ -33,10 +33,10 @@ class BithumbFormattedResponse(APIResponse):
         """Return namedtuple with given data."""
         data=(self.json())['data']
         asks=[]
-        for i in data['asks']: asks.append([i['price'],i['quantity']])
         bids=[]
-        for i in data['bids']: bids.append([i['price'],i['quantity']])
-        return super(BithumbFormattedResponse, self).order_book(bids, asks, data['timestamp'])
+        for i in data['asks']: asks.append([float(i['price']),float(i['quantity'])])
+        for i in data['bids']: bids.append([float(i['price']),float(i['quantity'])])
+        return super(BithumbFormattedResponse, self).order_book(bids, asks, int(data['timestamp']))
 
     def trades(self):
         """Return namedtuple with given data."""
