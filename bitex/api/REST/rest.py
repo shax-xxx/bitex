@@ -82,12 +82,15 @@ class RESTAPI(BaseAPI):
         :return: request.Response() object
         """
         proxies = None
-        proxies = {"http": "http://127.0.0.1:1087", "https": "http://127.0.0.1:1087"}
+        #proxies = {"http": "http://127.0.0.1:1087", "https": "http://127.0.0.1:1087"}
 
-        if 'method' not in request_kwargs:
-            resp = requests.request(method_verb, **request_kwargs, proxies=proxies, timeout=self.timeout)
-        else:
-            resp = requests.request(**request_kwargs, proxies=proxies, timeout=self.timeout)
+        try:
+            if 'method' not in request_kwargs:
+                resp = requests.request(method_verb, **request_kwargs, proxies=proxies, timeout=self.timeout)
+            else:
+                resp = requests.request(**request_kwargs, proxies=proxies, timeout=self.timeout)
+        except Exception as e:
+            resp=e
         return resp
 
     def private_query(self, method_verb, endpoint, **request_kwargs):
