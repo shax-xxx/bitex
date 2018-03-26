@@ -23,3 +23,4 @@ from bitex.api.REST.coinone import CoinoneREST
 from bitex.api.REST.cexio import CEXioREST
 from bitex.api.REST.exmo import ExmoREST
 from bitex.api.REST.coinnest import CoinnestREST
+from bitex.api.REST.gateio import GateioREST

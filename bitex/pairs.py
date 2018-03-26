@@ -66,6 +66,7 @@ class PairFormatter:
                            'CEXio': self.cexio_formatter,
                            'Exmo': self.exmo_formatter,
                            'Coinnest': self.coinnest_formatter,
+                           'Gateio': self.gateio_formatter,
                            }
 
     def __str__(self, *args, **kwargs):
@@ -155,8 +156,14 @@ class PairFormatter:
 
     @staticmethod
     def exmo_formatter(base, quote):
-        """Format currencies for CoinCheck."""
+        """Format currencies for Exmo."""
         return base.upper() + '_' + quote.upper()
+
+    @staticmethod
+    def gateio_formatter(base, quote):
+        """Format currencies for Gate.io."""
+        quote = 'USDT' if quote == 'USD' else quote
+        return base.lower() + '_' + quote.lower()
 
     @staticmethod
     def gdax_formatter(base, quote):
