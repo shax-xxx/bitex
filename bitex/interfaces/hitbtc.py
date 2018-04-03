@@ -8,10 +8,10 @@ import time
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import HitBTCREST
-from bitex.api.WSS.hitbtc import HitBTCWSS
-from bitex.utils import return_api_response
-from bitex.formatters.hitbtc import HitBtcFormatter as fmt
+from ..api.REST import HitBTCREST
+from ..api.WSS.hitbtc import HitBTCWSS
+from ..utils import return_api_response
+from ..formatters.hitbtc import HitBtcFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

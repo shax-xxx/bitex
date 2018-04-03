@@ -10,7 +10,7 @@ import hashlib
 from websocket import create_connection, WebSocketTimeoutException
 
 # Import Homebrew
-from bitex.api.WSS.base import WSSAPI
+from .base import WSSAPI
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

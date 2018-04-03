@@ -8,9 +8,9 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import OKCoinREST
-from bitex.utils import return_api_response
-from bitex.formatters.okcoin import OkcnFormatter as fmt
+from ..api.REST import OKCoinREST
+from ..utils import return_api_response
+from ..formatters.okcoin import OkcnFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

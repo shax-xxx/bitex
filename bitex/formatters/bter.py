@@ -4,7 +4,7 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.formatters.base import Formatter
+from .base import Formatter
 
 
 log = logging.getLogger(__name__)

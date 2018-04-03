@@ -8,9 +8,9 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import BittrexREST
-from bitex.utils import return_api_response
-from bitex.formatters.bittrex import BtrxFormatter as fmt
+from ..api.REST import BittrexREST
+from ..utils import return_api_response
+from ..formatters.bittrex import BtrxFormatter as fmt
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 

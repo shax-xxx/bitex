@@ -8,9 +8,9 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import CryptopiaREST
-from bitex.utils import return_api_response
-from bitex.formatters.cryptopia import CrptFormatter as fmt
+from ..api.REST import CryptopiaREST
+from ..utils import return_api_response
+from ..formatters.cryptopia import CrptFormatter as fmt
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 

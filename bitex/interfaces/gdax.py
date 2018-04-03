@@ -8,10 +8,10 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import GDAXRest
-from bitex.api.WSS.gdax import GDAXWSS
-from bitex.utils import return_api_response
-from bitex.formatters.gdax import GdaxFormatter as fmt
+from ..api.REST import GDAXRest
+from ..api.WSS.gdax import GDAXWSS
+from ..utils import return_api_response
+from ..formatters.gdax import GdaxFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

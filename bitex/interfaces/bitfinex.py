@@ -8,10 +8,10 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import BitfinexREST
-from bitex.api.WSS.bitfinex import BitfinexWSS
-from bitex.utils import return_api_response
-from bitex.formatters.bitfinex import BtfxFormatter as fmt
+from ..api.REST import BitfinexREST
+from ..api.WSS.bitfinex import BitfinexWSS
+from ..utils import return_api_response
+from ..formatters.bitfinex import BtfxFormatter as fmt
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 

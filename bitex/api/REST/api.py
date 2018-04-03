@@ -12,7 +12,7 @@ from os.path import join
 import requests
 
 # Import Homebrew
-from bitex.api.REST.response import APIResponse
+from .response import APIResponse
 
 log = logging.getLogger(__name__)
 

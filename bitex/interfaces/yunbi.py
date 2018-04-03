@@ -8,9 +8,9 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import YunbiREST
-from bitex.utils import return_api_response
-from bitex.formatters.yunbi import YnbiFormatter as fmt
+from ..api.REST import YunbiREST
+from ..utils import return_api_response
+from ..formatters.yunbi import YnbiFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

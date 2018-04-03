@@ -10,7 +10,7 @@ import hmac
 import base64
 
 # Import Homebrew
-from bitex.api.REST.api import APIClient
+from .api import APIClient
 
 
 log = logging.getLogger(__name__)

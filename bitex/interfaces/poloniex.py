@@ -8,10 +8,10 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import PoloniexREST
-from bitex.api.WSS.poloniex import PoloniexWSS
-from bitex.utils import return_api_response
-from bitex.formatters.poloniex import PlnxFormatter as fmt
+from ..api.REST import PoloniexREST
+from ..api.WSS.poloniex import PoloniexWSS
+from ..utils import return_api_response
+from ..formatters.poloniex import PlnxFormatter as fmt
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 

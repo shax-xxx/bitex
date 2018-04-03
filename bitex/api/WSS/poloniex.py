@@ -10,7 +10,7 @@ from asyncio import coroutine, get_event_loop
 import requests
 
 # Import Homebrew
-from bitex.api.WSS.base import WSSAPI
+from .base import WSSAPI
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

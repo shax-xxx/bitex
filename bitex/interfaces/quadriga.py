@@ -8,9 +8,9 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import QuadrigaCXREST
-from bitex.utils import return_api_response
-from bitex.formatters.quadriga import QuadrigaCXFormatter as fmt
+from ..api.REST import QuadrigaCXREST
+from ..utils import return_api_response
+from ..formatters.quadriga import QuadrigaCXFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

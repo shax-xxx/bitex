@@ -8,9 +8,9 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import QuoineREST
-from bitex.utils import return_api_response
-from bitex.formatters.quoine import QoinFormatter as fmt
+from ..api.REST import QuoineREST
+from ..utils import return_api_response
+from ..formatters.quoine import QoinFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

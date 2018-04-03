@@ -8,9 +8,9 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import VaultoroREST
-from bitex.utils import return_api_response
-from bitex.formatters.vaultoro import VaultoroFormatter as fmt
+from ..api.REST import VaultoroREST
+from ..utils import return_api_response
+from ..formatters.vaultoro import VaultoroFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

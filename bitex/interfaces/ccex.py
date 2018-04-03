@@ -8,9 +8,9 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import CCEXRest
-from bitex.utils import return_api_response
-from bitex.formatters.ccex import CcexFormatter as fmt
+from ..api.REST import CCEXRest
+from ..utils import return_api_response
+from ..formatters.ccex import CcexFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

@@ -11,19 +11,19 @@ from websocket import create_connection, WebSocketTimeoutException
 from websocket import WebSocketConnectionClosedException
 
 # Import Homebrew
-from bitex.api.WSS.base import WSSAPI
+from .base import WSSAPI
 
 # import Server-side Exceptions
-from bitex.api.WSS.exceptions import InvalidBookLengthError, GenericSubscriptionError
-from bitex.api.WSS.exceptions import NotSubscribedError,  AlreadySubscribedError
-from bitex.api.WSS.exceptions import InvalidPairError, InvalidChannelError
-from bitex.api.WSS.exceptions import InvalidEventError, InvalidBookPrecisionError
+from .exceptions import InvalidBookLengthError, GenericSubscriptionError
+from .exceptions import NotSubscribedError,  AlreadySubscribedError
+from .exceptions import InvalidPairError, InvalidChannelError
+from .exceptions import InvalidEventError, InvalidBookPrecisionError
 
 # import Client-side Exceptions
-from bitex.api.WSS.exceptions import UnknownEventError, UnknownWSSError
-from bitex.api.WSS.exceptions import UnknownWSSInfo, AlreadyRegisteredError
-from bitex.api.WSS.exceptions import NotRegisteredError, UnknownChannelError
-from bitex.api.WSS.exceptions import FaultyPayloadError
+from .exceptions import UnknownEventError, UnknownWSSError
+from .exceptions import UnknownWSSInfo, AlreadyRegisteredError
+from .exceptions import NotRegisteredError, UnknownChannelError
+from .exceptions import FaultyPayloadError
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

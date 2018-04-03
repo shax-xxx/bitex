@@ -8,10 +8,10 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import GeminiREST
-from bitex.api.WSS.gemini import GeminiWSS
-from bitex.utils import return_api_response
-from bitex.formatters.gemini import GmniFormatter as fmt
+from ..api.REST import GeminiREST
+from ..api.WSS.gemini import GeminiWSS
+from ..utils import return_api_response
+from ..formatters.gemini import GmniFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

@@ -8,10 +8,10 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import BitstampREST
-from bitex.api.WSS.bitstamp import BitstampWSS
-from bitex.utils import return_api_response
-from bitex.formatters.bitstamp import BtstFormatter as fmt
+from ..api.REST import BitstampREST
+from ..api.WSS.bitstamp import BitstampWSS
+from ..utils import return_api_response
+from ..formatters.bitstamp import BtstFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

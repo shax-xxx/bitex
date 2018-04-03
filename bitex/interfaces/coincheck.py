@@ -8,9 +8,9 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import CoincheckREST
-from bitex.utils import return_api_response
-from bitex.formatters.coincheck import CnckFormatter as fmt
+from ..api.REST import CoincheckREST
+from ..utils import return_api_response
+from ..formatters.coincheck import CnckFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)

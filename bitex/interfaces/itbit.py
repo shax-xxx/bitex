@@ -8,9 +8,9 @@ import logging
 # Import Third-Party
 
 # Import Homebrew
-from bitex.api.REST import ItbitREST
-from bitex.utils import return_api_response
-from bitex.formatters.itbit import itbtFormatter as fmt
+from ..api.REST import ItbitREST
+from ..utils import return_api_response
+from ..formatters.itbit import itbtFormatter as fmt
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
