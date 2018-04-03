@@ -30,8 +30,7 @@ class Gateio(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        resp=self.request('pairs/')
-        print(resp)
+        resp=self.request('data.gateio.io/api2/1/pairs/')
         return [pair for pair in resp.json()]
 
     def request(self, endpoint, authenticate=False, **kwargs):
@@ -49,13 +48,13 @@ class Gateio(RESTInterface):
     @format_with(GateioFormattedResponse)
     def ticker(self, pair, *args, **kwargs): # tickers is all pair ticker
         """Return the ticker for the given pair."""
-        return self.request('ticker/%s' % pair, params=kwargs)
+        return self.request('api.gateio.io/api2/1/ticker/%s' % pair, params=kwargs)
 
     @check_and_format_pair
     @format_with(GateioFormattedResponse)
     def order_book(self, pair, *args, **kwargs): # orderBooks is all pair orderBook
         """Return the order book for the given pair."""
-        return self.request('orderBook/%s' % pair, params=kwargs)
+        return self.request('api.gateio.io/api2/1/orderBook/%s' % pair, params=kwargs)
 
     @check_and_format_pair
     @format_with(GateioFormattedResponse)
@@ -111,8 +110,7 @@ class Gateio(RESTInterface):
 
     @format_with(GateioFormattedResponse)
     def wallet(self, *args, **kwargs):
-        print(kwargs)
-        return self.request('private/balances', authenticate=True, params=kwargs)
+        return self.request('api.gateio.io/api2/1/private/balances/', authenticate=True, params=kwargs)
 
     ###########################
     # Exchange Specific Methods

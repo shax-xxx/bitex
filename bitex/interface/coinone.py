@@ -46,9 +46,6 @@ class Coinone(RESTInterface):
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
         return self.request('ticker?currency=%s' % pair)
-        #payload = {'currency': pair}
-        #payload.update(kwargs)
-        #return self.request('ticker', params=payload)
 
     @check_and_format_pair
     @format_with(CoinoneFormattedResponse)

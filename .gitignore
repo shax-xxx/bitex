@@ -103,6 +103,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-__pycache__
 migrations/
 .idea/
+.tmp

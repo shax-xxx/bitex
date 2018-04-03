@@ -15,15 +15,15 @@ class GateioFormattedResponse(APIResponse):
     def ticker(self):
         """Return namedtuple with given data."""
         pair = self.method_args[1]
-        data = self.json(parse_int=str, parse_float=str)[pair]
+        data = self.json(parse_int=str, parse_float=str)
 
-        bid = data["buy_price"]
-        ask = data["sell_price"]
-        high = data["high"]
-        low = data["low"]
-        last = data["last_trade"]
-        volume = data["vol"]
-        timestamp = datetime.utcfromtimestamp(float(data["updated"]))
+        bid = data["highestBid"]
+        ask = data["lowestAsk"]
+        high = data["high24hr"]
+        low = data["low24hr"]
+        last = data["last"]
+        volume = data["quoteVolume"] #"quoteVolume"
+        timestamp = datetime.utcnow()
         return super(GateioFormattedResponse, self).ticker(bid, ask, high, low, last, volume, timestamp)
 
     def order_book(self):
@@ -92,7 +92,6 @@ class GateioFormattedResponse(APIResponse):
 
     def wallet(self):
         data = self.json(parse_int=str, parse_float=str)['available']
-        print('wallet data',data)
         balances={}
         for i in data:
             if (i=='BTC')|(i=='USD')|(float(data[i])>0):

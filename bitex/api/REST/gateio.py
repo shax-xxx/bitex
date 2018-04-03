@@ -24,7 +24,7 @@ class GateioREST(RESTAPI):
 
     def __init__(self, addr=None, user_id=None, key=None, secret=None, version=None, timeout=5, config=None):
         """Initialize the class instance."""
-        addr = addr or 'http://api.gate.io/api2/1'
+        addr = addr or 'https:/'
         super(GateioREST, self).__init__(addr=addr, version=version,
                                            key=key, secret=secret,
                                            timeout=timeout, config=config)
@@ -70,7 +70,6 @@ class GateioREST(RESTAPI):
         params = req_kwargs.pop('params')
 
         # Update headers and data
-        print(params,self.secret)
         req_kwargs['headers'] = {
             "Content-type": "application/x-www-form-urlencoded",
             "KEY": self.key,

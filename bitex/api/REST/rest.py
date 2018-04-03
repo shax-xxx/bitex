@@ -69,7 +69,8 @@ class RESTAPI(BaseAPI):
         url = self.generate_url(uri)
         template = {'url': url, 'headers': {}, 'files': {},
                     'data': {}, 'params': {}, 'auth': {}, 'cookies': {},
-                    'hooks': {}, 'json': {}}
+                    'hooks': {}}
+                    #'hooks': {}, 'json': {}}
         template.update(kwargs)
         return template
 
@@ -83,7 +84,7 @@ class RESTAPI(BaseAPI):
         """
         proxies = None
         proxies = {"http": "http://127.0.0.1:1087", "https": "http://127.0.0.1:1087"}
-        print('request_kwargs',request_kwargs)
+        #print('request_kwargs','' if 'headers' not in request_kwargs else type(request_kwargs['headers']),request_kwargs)
         if 'method' not in request_kwargs:
             resp = requests.request(method_verb, **request_kwargs, proxies=proxies, timeout=self.timeout)
         else:
