@@ -83,7 +83,7 @@ class RESTAPI(BaseAPI):
         :return: request.Response() object
         """
 
-        self.proxies = {"http": "http://127.0.0.1:1087", "https": "http://127.0.0.1:1087"}
+        #self.proxies = {"http": "http://127.0.0.1:1087", "https": "http://127.0.0.1:1087"}
         if 'method' not in request_kwargs:
             resp = requests.request(method_verb, **request_kwargs, proxies=self.proxies,
                                     timeout=self.timeout)
