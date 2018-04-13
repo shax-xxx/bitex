@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 
 
 def getsign(params, secret):
-    """Caculate signature using params and secret"""
+    """Caculate signature using params and secret."""
     bsecret = bytes(secret, encoding='utf8')
 
     sign = ''

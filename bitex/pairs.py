@@ -264,7 +264,9 @@ class PairFormatter:
 
 class BTCKRWFormatter(PairFormatter):
     """BTC/KRW PairFormatter object."""
+
     def __init__(self):
+        """init."""
         super(BTCKRWFormatter, self).__init__('BTC', 'KRW')
 
 
