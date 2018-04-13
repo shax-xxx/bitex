@@ -57,57 +57,41 @@ class Coinnest(RESTInterface):
     @check_and_format_pair
     @format_with(CoinnestFormattedResponse)
     def trades(self, pair, *args, **kwargs):
-        return self.request('api/pub/trades?coin=%s' % pair, params=kwargs)
+        raise NotImplementedError
 
     # Private Endpoints
     @check_and_format_pair
     @format_with(CoinnestFormattedResponse)
     def ask(self, pair, price, size, *args, market=False, **kwargs):
         """Place an ask order."""
-        return self._place_order(pair, price, size, 'api/trade/add', market=market, **kwargs)
+        raise NotImplementedError
 
     @check_and_format_pair
     @format_with(CoinnestFormattedResponse)
     def bid(self, pair, price, size, *args, market=False, **kwargs):
         """Place a bid order."""
-        return self._place_order(pair, price, size, 'api/trade/add', market=market, **kwargs)
+        raise NotImplementedError
 
     def _place_order(self, pair, price, size, side, market=None, **kwargs):
         """Place an order with the given parameters."""
-        payload = {'amount': size, 'price': price}
-        payload.update(kwargs)
-        if market:
-            return self.request('%s/market/%s/' % (side, pair), authenticate=True, params=payload)
-        return self.request('%s/%s/' % (side, pair), authenticate=True, params=payload)
+        raise NotImplementedError
 
     @format_with(CoinnestFormattedResponse)
     def order_status(self, order_id, *args, **kwargs):
         """Return the order status for the given order's ID."""
-        payload = {'id': order_id}
-        payload.update(kwargs)
-        return self.request('api/order_status/', authenticate=True, params=payload)
+        raise NotImplementedError
 
     @format_with(CoinnestFormattedResponse)
     def open_orders(self, *args, pair=None, **kwargs):
         """Return all open orders."""
-        if pair:
-            return self.request('open_orders/%s/' % pair, authenticate=True, params=kwargs)
-        return self.request('open_orders/all/', authenticate=True, params=kwargs)
+        raise NotImplementedError
 
     @format_with(CoinnestFormattedResponse)
     def cancel_order(self, *order_ids, **kwargs):
         """Cancel existing order(s) with the given id(s)."""
-        results = []
-        payload = kwargs
-        for oid in order_ids:
-            payload.update({'id': oid})
-            r = self.request('api/trade/cancel', authenticate=True, params=payload)
-            results.append(r)
-        return results if len(results) > 1 else results[0]
+        raise NotImplementedError
 
     @format_with(CoinnestFormattedResponse)
     def wallet(self, *args, **kwargs):
         """Return account's wallet."""
         return self.request('api/account/balance', authenticate=True, params=kwargs)
-
-

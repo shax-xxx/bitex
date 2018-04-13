@@ -109,5 +109,3 @@ class Exmo(RESTInterface):
     ###########################
     # Exchange Specific Methods
     ###########################
-
-

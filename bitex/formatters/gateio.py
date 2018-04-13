@@ -42,53 +42,23 @@ class GateioFormattedResponse(APIResponse):
 
     def bid(self):
         """Return namedtuple with given data."""
-        data = self.json(parse_int=str, parse_float=str)
-        oid, ts, side = data['id'], data['datetime'], 'ask' if data['type'] else 'bid'
-        price, size = data['price'], data['amount']
-        return super(GateioFormattedResponse, self).bid(oid, price, size, side, 'N/A', ts)
+        raise NotImplementedError
 
     def ask(self):
         """Return namedtuple with given data."""
-        data = self.json(parse_int=str, parse_float=str)
-        oid, ts, side = data['id'], data['datetime'], 'ask' if data['type'] else 'bid'
-        price, size = data['price'], data['amount']
-        return super(GateioFormattedResponse, self).ask(oid, price, size, side, 'N/A', ts)
+        raise NotImplementedError
 
     def order_status(self):
         """Return namedtuple with given data."""
-        data = self.json(parse_int=str, parse_float=str)
-        state = data['status']
-        oid = self.method_args[0]
-        ts = self.received_at
-        return super(GateioFormattedResponse, self).order_status(
-            oid, 'N/A', 'N/A', 'N/A', 'N/A', state, ts)
+        raise NotImplementedError
 
     def cancel_order(self):
         """Return namedtuple with given data."""
-        data = self.json(parse_int=str, parse_float=float)
-        extracted_data = (data['id'], True if ('error' in data and data['error']) else False,
-                          data['datetime'], data['error'] if 'error' in data else None)
-        return super(GateioFormattedResponse, self).cancel_order(*extracted_data)
+        raise NotImplementedError
 
     def open_orders(self):
         """Return namedtuple with given data."""
-        data = self.json(parse_int=str, parse_float=str)
-        unpacked_orders = []
-        for order in data:
-            if order['type']:
-                side = 'ask'
-            else:
-                side = 'bid'
-            if 'pair' in self.method_kwargs:
-                unpacked_order = (data['id'], self.method_kwargs['pair'], data['price'],
-                                  data['amount'], side, data['datetime'])
-            else:
-                unpacked_order = (data['id'], data['currency_pair'], data['price'], data['amount'],
-                                  side, data['datetime'])
-            unpacked_orders.append(unpacked_order)
-
-        ts = self.received_at
-        return super(GateioFormattedResponse, self).open_orders(unpacked_orders, ts)
+        raise NotImplementedError
 
     def wallet(self):
         data = self.json(parse_int=str, parse_float=str)['available']
