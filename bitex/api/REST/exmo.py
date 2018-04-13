@@ -37,7 +37,7 @@ class ExmoREST(RESTAPI):
         except IncompleteCredentialsError:
             raise
 
-        #if self.user_id is None: # if need user_id, remove #
+        # if self.user_id is None: # if need user_id, remove #
         #    raise IncompleteCredentialsError
 
     def load_config(self, fname):
@@ -67,8 +67,7 @@ class ExmoREST(RESTAPI):
         # Update headers and data
         req_kwargs['headers'] = {"Content-type": "application/x-www-form-urlencoded",
                                  "Key": self.key,
-                                 "Sign": signature,
-                                }
+                                 "Sign": signature, }
         req_kwargs['data'] = params
 
         return req_kwargs

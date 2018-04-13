@@ -2,6 +2,7 @@
 from datetime import datetime
 from bitex.formatters.base import APIResponse
 
+
 class CEXioFormattedResponse(APIResponse):
     """FormattedResponse class.
 

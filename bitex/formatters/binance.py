@@ -65,8 +65,9 @@ class BinanceFormattedResponse(APIResponse):
         raise NotImplementedError
 
     def wallet(self):
+        """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)['balances']
-        #balances = {d['asset']: d['free'] for d in data}
+        # balances = {d['asset']: d['free'] for d in data}
         # nametuple can not first is number, and can not more then 255
         balances = {}
         for i in data:

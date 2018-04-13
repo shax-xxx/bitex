@@ -32,7 +32,7 @@ class BitfinexFormattedResponse(APIResponse):
         data = self.json()
         asks = []
         bids = []
-        if 'bids' in data: # api version 1
+        if 'bids' in data:  # api version 1
             for i in data['asks']:
                 asks.append([float(i['price']), float(i['amount'])])
             for i in data['bids']:
@@ -71,6 +71,7 @@ class BitfinexFormattedResponse(APIResponse):
         raise NotImplementedError
 
     def wallet(self):
+        """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
         balances = {(d['currency']).upper(): d['amount'] for d in data}
         return super(BitfinexFormattedResponse, self).wallet(balances, self.received_at)

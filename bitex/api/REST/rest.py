@@ -69,8 +69,7 @@ class RESTAPI(BaseAPI):
         url = self.generate_url(uri)
         template = {'url': url, 'headers': {}, 'files': {},
                     'data': {}, 'params': {}, 'auth': {}, 'cookies': {},
-                    'hooks': {}}
-                    #'hooks': {}, 'json': {}}
+                    'hooks': {}}    # 'hooks': {}, 'json': {}}
         template.update(kwargs)
         return template
 
@@ -83,7 +82,7 @@ class RESTAPI(BaseAPI):
         :return: request.Response() object
         """
 
-        #self.proxies = {"http": "http://127.0.0.1:1087", "https": "http://127.0.0.1:1087"}
+        # self.proxies = {"http": "http://127.0.0.1:1087", "https": "http://127.0.0.1:1087"}
         if 'method' not in request_kwargs:
             resp = requests.request(method_verb, **request_kwargs, proxies=self.proxies,
                                     timeout=self.timeout)

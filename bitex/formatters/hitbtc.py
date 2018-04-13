@@ -30,7 +30,7 @@ class HitBTCFormattedResponse(APIResponse):
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        if 'asks' in data: # api version 1
+        if 'asks' in data:  # api version 1
             bids = data['bids']
             asks = data['asks']
         else:        # api version 2
@@ -69,10 +69,11 @@ class HitBTCFormattedResponse(APIResponse):
         raise NotImplementedError
 
     def wallet(self):
+        """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
         balances = {}
         for i in data:
             available = float(i['available'])
-            if (available > 0)|(i['currency'] == 'BTC'):
+            if (available > 0) | (i['currency'] == 'BTC'):
                 balances[i['currency']] = available
         return super(HitBTCFormattedResponse, self).wallet(balances, self.received_at)

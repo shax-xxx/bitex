@@ -2,7 +2,7 @@
 # pylint: disable=arguments-differ
 # Import Built-Ins
 import logging
-#from bitex.exceptions import UnsupportedPairError
+# from bitex.exceptions import UnsupportedPairError
 from bitex.api.REST.exmo import ExmoREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
@@ -40,7 +40,7 @@ class Exmo(RESTInterface):
 
     # Public Endpoints
 
-    @check_and_format_pair # Exmo ticker response all pairs
+    @check_and_format_pair  # Exmo ticker response all pairs
     @format_with(ExmoFormattedResponse)
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""

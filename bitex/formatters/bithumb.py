@@ -65,6 +65,7 @@ class BithumbFormattedResponse(APIResponse):
         raise NotImplementedError
 
     def wallet(self):
+        """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)['data']
         balances = {}
         for i in data:

@@ -5,6 +5,7 @@ from datetime import datetime
 # Import Home-brewed
 from bitex.formatters.base import APIResponse
 
+
 class CoinnestFormattedResponse(APIResponse):
     """FormattedResponse class.
 
@@ -62,10 +63,11 @@ class CoinnestFormattedResponse(APIResponse):
         raise NotImplementedError
 
     def wallet(self):
+        """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
         balances = {}
         for i in data:
             if i[-8:] == '_balance':
-                if (i[:-8] == 'btc')|(i[:-8] == 'krw')|(float(data[i]) > 0):
+                if (i[:-8] == 'btc') | (i[:-8] == 'krw') | (float(data[i]) > 0):
                     balances[i[:-8].upper()] = float(data[i])
         return super(CoinnestFormattedResponse, self).wallet(balances, self.received_at)

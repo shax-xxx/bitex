@@ -66,7 +66,7 @@ class PairFormatter:
                            'CEXio': self.cexio_formatter,
                            'Exmo': self.exmo_formatter,
                            'Coinnest': self.coinnest_formatter,
-                           'Gateio': self.gateio_formatter,}
+                           'Gateio': self.gateio_formatter, }
 
     def __str__(self, *args, **kwargs):
         """Return the stored base and quote currency in proper pair format."""
@@ -111,18 +111,22 @@ class PairFormatter:
 
     @staticmethod
     def bithumb_formatter(base, quote):
+        """Format currencies for BitHumb."""
         return base.upper()
 
     @staticmethod
     def coinone_formatter(base, quote):
+        """Format currencies for CoinOne."""
         return base.lower()
 
     @staticmethod
     def coinnest_formatter(base, quote):
+        """Format currencies for CoinNest."""
         return base.lower()
 
     @staticmethod
     def cexio_formatter(base, quote):
+        """Format currencies for CEXIO."""
         return base.upper()+quote.upper()
 
     @staticmethod
@@ -257,9 +261,12 @@ class PairFormatter:
         (base, quote) = pair.split('_')
         return quote.upper() + base.upper()
 
+
 class BTCKRWFormatter(PairFormatter):
+    """BTC/KRW PairFormatter object."""
     def __init__(self):
         super(BTCKRWFormatter, self).__init__('BTC', 'KRW')
+
 
 class BTCUSDFormatter(PairFormatter):
     """BTC/USD PairFormatter object."""

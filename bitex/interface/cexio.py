@@ -21,7 +21,7 @@ class CEXio(RESTInterface):
 
     def __init__(self, **api_kwargs):
         """Initialize Interface class instance."""
-        #if 'key' in api_kwargs: key = api_kwargs['key']
+        # if 'key' in api_kwargs: key = api_kwargs['key']
         super(CEXio, self).__init__('CEXio', CEXioREST(**api_kwargs))
 
     def request(self, endpoint, authenticate=False, **req_kwargs):
@@ -30,7 +30,6 @@ class CEXio(RESTInterface):
             return super(CEXio, self).request('GET', endpoint, authenticate=authenticate,
                                               **req_kwargs)
         return super(CEXio, self).request('POST', endpoint, authenticate=authenticate, **req_kwargs)
-
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""

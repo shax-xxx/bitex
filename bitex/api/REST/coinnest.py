@@ -38,7 +38,7 @@ class CoinnestREST(RESTAPI):
         except IncompleteCredentialsError:
             raise
 
-        #if self.user_id is None: # if need user_id, remove #
+        # if self.user_id is None: # if need user_id, remove #
         #    raise IncompleteCredentialsError
 
     def load_config(self, fname):
@@ -57,7 +57,7 @@ class CoinnestREST(RESTAPI):
         req_kwargs = super(CoinnestREST, self).sign_request_kwargs(endpoint, **kwargs)
 
         # Parameters go into headers & data, so pop params key and generate signature
-        #params = req_kwargs.pop('params')
+        # params = req_kwargs.pop('params')
 
         nonce = str(int(round(time.time() * 1000)))
         uri_array = {"key": self.key, "nonce": nonce}
@@ -72,7 +72,7 @@ class CoinnestREST(RESTAPI):
 
         data = {"key": self.key, "nonce": nonce, "signature": signature}
 
-            # Update headers and data
+        # Update headers and data
         req_kwargs['data'] = data
 
         return req_kwargs

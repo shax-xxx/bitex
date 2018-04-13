@@ -65,9 +65,10 @@ class ExmoFormattedResponse(APIResponse):
         raise NotImplementedError
 
     def wallet(self):
+        """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)['balances']
         balances = {}
         for i in data:
-            if (i == 'BTC')|(i == 'USD')|(float(data[i]) > 0):
+            if (i == 'BTC') | (i == 'USD') | (float(data[i]) > 0):
                 balances[i] = float(data[i])
         return super(ExmoFormattedResponse, self).wallet(balances, self.received_at)

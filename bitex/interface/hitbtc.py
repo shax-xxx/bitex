@@ -52,8 +52,8 @@ class HitBTC(RESTInterface):
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
         if self.REST.version == '1':
-            return self.request('%s/orderbook' % pair, params=kwargs) # Version 1
-        return self.request('orderbook/%s' % pair, params=kwargs) # Version 2
+            return self.request('%s/orderbook' % pair, params=kwargs)   # Version 1
+        return self.request('orderbook/%s' % pair, params=kwargs)   # Version 2
 
     @check_and_format_pair
     @format_with(HitBTCFormattedResponse)

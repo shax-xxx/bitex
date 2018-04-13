@@ -15,7 +15,7 @@ class Coinone(RESTInterface):
 
     def __init__(self, **api_kwargs):
         """Initialize Interface class instance."""
-        #if 'key' in api_kwargs: key = api_kwargs['key']
+        # if 'key' in api_kwargs: key = api_kwargs['key']
         super(Coinone, self).__init__('Coinone', CoinoneREST(**api_kwargs))
 
     def request(self, endpoint, authenticate=False, **req_kwargs):
@@ -45,9 +45,9 @@ class Coinone(RESTInterface):
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
         return self.request('orderbook?currency=%s' % pair)
-        #payload = {'currency': pair}
-        #payload.update(kwargs)
-        #return self.request('orderbook', params=payload)
+        # payload = {'currency': pair}
+        # payload.update(kwargs)
+        # return self.request('orderbook', params=payload)
 
     @check_and_format_pair
     @format_with(CoinoneFormattedResponse)

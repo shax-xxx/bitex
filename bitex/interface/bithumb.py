@@ -37,11 +37,13 @@ class Bithumb(RESTInterface):
     @format_with(BithumbFormattedResponse)
     @check_and_format_pair
     def ticker(self, pair, *args, **kwargs):
+        """Return the ticker for a given pair."""
         return self.request('public/ticker/%s' % pair)
 
     @check_and_format_pair
     @format_with(BithumbFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
+        """Return the order_book for a given pair."""
         return self.request('public/orderbook/%s' % pair)
 
     @check_and_format_pair

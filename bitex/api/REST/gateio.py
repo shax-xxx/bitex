@@ -19,6 +19,7 @@ log = logging.getLogger(__name__)
 
 
 def getsign(params, secret):
+    """Caculate signature using params and secret"""
     bsecret = bytes(secret, encoding='utf8')
 
     sign = ''
@@ -29,6 +30,7 @@ def getsign(params, secret):
 
     mysign = hmac.new(bsecret, bsign, hashlib.sha512).hexdigest()
     return mysign
+
 
 class GateioREST(RESTAPI):
     """Gateio REST API class."""
@@ -47,7 +49,7 @@ class GateioREST(RESTAPI):
         except IncompleteCredentialsError:
             raise
 
-        #if self.user_id is None: # if need user_id, remove #
+        # if self.user_id is None: # if need user_id, remove #
         #    raise IncompleteCredentialsError
 
     def load_config(self, fname):
@@ -74,6 +76,6 @@ class GateioREST(RESTAPI):
             "KEY": self.key,
             "SIGN": getsign(params, self.secret)
             }
-        #req_kwargs['data'] = params
+        # req_kwargs['data'] = params
 
         return req_kwargs

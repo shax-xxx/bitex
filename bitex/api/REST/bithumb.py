@@ -36,10 +36,10 @@ class BithumbREST(RESTAPI):
 
         # Parameters go into headers & data, so pop params key and generate signature
         params = req_kwargs.pop('params')
-        #uri = self.generate_uri(endpoint)
+        # uri = self.generate_uri(endpoint)
         nonce = self.nonce()
 
-        #uri_array = {"endpoint": '/'+endpoint, "order_currency": "BTC", "payment_currency": "KRW"}
+        # uri_array = {"endpoint": '/'+endpoint, "order_currency": "BTC", "payment_currency": "KRW"}
         uri_array = dict({"endpoint": '/'+endpoint}, **params)
         str_data = urllib.parse.urlencode(uri_array)
         message = '/'+endpoint + chr(0) + str_data + chr(0) + nonce
@@ -51,8 +51,7 @@ class BithumbREST(RESTAPI):
         # Update headers and data
         req_kwargs['headers'] = {"Api-Key": self.key,
                                  "Api-Sign": signature,
-                                 "Api-Nonce": nonce,
-                                }
+                                 "Api-Nonce": nonce, }
         req_kwargs['data'] = uri_array
 
         return req_kwargs

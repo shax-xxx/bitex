@@ -2,7 +2,7 @@
 # pylint: disable=arguments-differ
 # Import Built-Ins
 import logging
-#from bitex.exceptions import UnsupportedPairError
+# from bitex.exceptions import UnsupportedPairError
 from bitex.api.REST.gateio import GateioREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
@@ -40,15 +40,15 @@ class Gateio(RESTInterface):
 
     # Public Endpoints
 
-    @check_and_format_pair # Gateio ticker response all pairs
+    @check_and_format_pair  # Gateio ticker response all pairs
     @format_with(GateioFormattedResponse)
-    def ticker(self, pair, *args, **kwargs): # tickers is all pair ticker
+    def ticker(self, pair, *args, **kwargs):    # tickers is all pair ticker
         """Return the ticker for the given pair."""
         return self.request('api.gateio.io/api2/1/ticker/%s' % pair, params=kwargs)
 
     @check_and_format_pair
     @format_with(GateioFormattedResponse)
-    def order_book(self, pair, *args, **kwargs): # orderBooks is all pair orderBook
+    def order_book(self, pair, *args, **kwargs):    # orderBooks is all pair orderBook
         """Return the order book for the given pair."""
         return self.request('api.gateio.io/api2/1/orderBook/%s' % pair, params=kwargs)
 
@@ -92,6 +92,7 @@ class Gateio(RESTInterface):
 
     @format_with(GateioFormattedResponse)
     def wallet(self, *args, **kwargs):
+        """Return the account's wallet."""
         return self.request('api.gateio.io/api2/1/private/balances/', authenticate=True,
                             params=kwargs)
 

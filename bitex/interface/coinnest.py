@@ -2,7 +2,7 @@
 # pylint: disable=arguments-differ
 # Import Built-Ins
 import logging
-#from bitex.exceptions import UnsupportedPairError
+# from bitex.exceptions import UnsupportedPairError
 from bitex.api.REST.coinnest import CoinnestREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
@@ -43,19 +43,22 @@ class Coinnest(RESTInterface):
 
     # Public Endpoints
 
-    @check_and_format_pair # Coinnest ticker response all pairs
+    @check_and_format_pair  # Coinnest ticker response all pairs
     @format_with(CoinnestFormattedResponse)
     def ticker(self, pair, *args, **kwargs):
+        """Return the ticker for a given pair."""
         return self.request('api/pub/ticker?coin=%s' % pair, params=kwargs)
 
     @check_and_format_pair
     @format_with(CoinnestFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
+        """Return the order_book for a given pair."""
         return self.request('/api/pub/depth?coin=%s' % pair, params=kwargs)
 
     @check_and_format_pair
     @format_with(CoinnestFormattedResponse)
     def trades(self, pair, *args, **kwargs):
+        """Return the trades for a given pair."""
         raise NotImplementedError
 
     # Private Endpoints

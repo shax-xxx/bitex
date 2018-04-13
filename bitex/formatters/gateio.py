@@ -21,7 +21,7 @@ class GateioFormattedResponse(APIResponse):
         high = data["high24hr"]
         low = data["low24hr"]
         last = data["last"]
-        volume = data["quoteVolume"] #"quoteVolume"
+        volume = data["quoteVolume"]    # "quoteVolume"
         timestamp = datetime.utcnow()
         return super(GateioFormattedResponse, self).ticker(bid, ask, high, low, last, volume,
                                                            timestamp)
@@ -63,9 +63,10 @@ class GateioFormattedResponse(APIResponse):
         raise NotImplementedError
 
     def wallet(self):
+        """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)['available']
         balances = {}
         for i in data:
-            if (i == 'BTC')|(i == 'USD')|(float(data[i]) > 0):
+            if (i == 'BTC') | (i == 'USD') | (float(data[i]) > 0):
                 balances[i] = float(data[i])
         return super(GateioFormattedResponse, self).wallet(balances, self.received_at)
