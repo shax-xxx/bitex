@@ -2,10 +2,6 @@
 # pylint: disable=arguments-differ
 # Import Built-Ins
 import logging
-
-import requests
-
-# Import Homebrew
 from bitex.exceptions import UnsupportedPairError
 from bitex.api.REST.bitstamp import BitstampREST
 from bitex.interface.rest import RESTInterface
@@ -30,7 +26,9 @@ class Bitstamp(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        resp=super(Bitstamp, self).request('GET', 'https://www.bitstamp.net/api/v2/trading-pairs-info/', endpointwithversion=True)
+        resp = super(Bitstamp, self).request('GET',
+                                             'https://www.bitstamp.net/api/v2/trading-pairs-info/',
+                                             endpointwithversion=True)
         return [pair["name"].replace("/", "") for pair in resp.json()]
 
     def request(self, endpoint, authenticate=False, **kwargs):

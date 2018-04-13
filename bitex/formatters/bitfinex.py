@@ -29,19 +29,20 @@ class BitfinexFormattedResponse(APIResponse):
 
     def order_book(self):
         """Return namedtuple with given data."""
-        pair = self.method_args[1]
         data = self.json()
         asks = []
         bids = []
         if 'bids' in data: # api version 1
-            for i in data['asks']:asks.append([float(i['price']),float(i['amount'])]) #,i['timestamp']])
-            for i in data['bids']:bids.append([float(i['price']),float(i['amount'])]) #,i['timestamp']])
+            for i in data['asks']:
+                asks.append([float(i['price']), float(i['amount'])])
+            for i in data['bids']:
+                bids.append([float(i['price']), float(i['amount'])])
         else:   # api version 2
             for i in data:
-                if float(i[2])>0:
+                if float(i[2]) > 0:
                     bids.append([float(i[0]), float(i[2])])
                 else:
-                    asks.append([float(i[0]),-float(i[2])])
+                    asks.append([float(i[0]), -float(i[2])])
         timestamp = datetime.utcnow()
         return super(BitfinexFormattedResponse, self).order_book(bids, asks, timestamp)
 

@@ -8,7 +8,6 @@ import logging
 import hashlib
 import hmac
 import warnings
-import time,urllib
 # Import Third-Party
 
 # Import Homebrew
@@ -19,15 +18,27 @@ from bitex.exceptions import IncompleteCredentialConfigurationWarning
 log = logging.getLogger(__name__)
 
 
+def getsign(params, secret):
+    bsecret = bytes(secret, encoding='utf8')
+
+    sign = ''
+    for key in params.keys():
+        value = str(params[key])
+        sign += key + '=' + value + '&'
+    bsign = bytes(sign[:-1], encoding='utf8')
+
+    mysign = hmac.new(bsecret, bsign, hashlib.sha512).hexdigest()
+    return mysign
+
 class GateioREST(RESTAPI):
     """Gateio REST API class."""
 
-    def __init__(self, addr=None, user_id=None, key=None, secret=None, version=None, timeout=5, config=None):
+    def __init__(self, addr=None, user_id=None, key=None, secret=None, version=None, timeout=5,
+                 config=None):
         """Initialize the class instance."""
         addr = addr or 'https:/'
-        super(GateioREST, self).__init__(addr=addr, version=version,
-                                           key=key, secret=secret,
-                                           timeout=timeout, config=config)
+        super(GateioREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                         timeout=timeout, config=config)
 
     def check_auth_requirements(self):
         """Check if authentication requirements are met."""
@@ -50,18 +61,6 @@ class GateioREST(RESTAPI):
                               IncompleteCredentialConfigurationWarning)
         return conf
 
-    def getSign(self, params, secretKey):
-        bSecretKey = bytes(secretKey, encoding='utf8')
-
-        sign = ''
-        for key in params.keys():
-            value = str(params[key])
-            sign += key + '=' + value + '&'
-        bSign = bytes(sign[:-1], encoding='utf8')
-
-        mySign = hmac.new(bSecretKey, bSign, hashlib.sha512).hexdigest()
-        return mySign
-
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""
         req_kwargs = super(GateioREST, self).sign_request_kwargs(endpoint, **kwargs)
@@ -73,7 +72,7 @@ class GateioREST(RESTAPI):
         req_kwargs['headers'] = {
             "Content-type": "application/x-www-form-urlencoded",
             "KEY": self.key,
-            "SIGN": self.getSign(params,self.secret)
+            "SIGN": getsign(params, self.secret)
             }
         #req_kwargs['data'] = params
 

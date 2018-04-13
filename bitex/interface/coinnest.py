@@ -2,11 +2,7 @@
 # pylint: disable=arguments-differ
 # Import Built-Ins
 import logging
-
-import requests
-
-# Import Homebrew
-from bitex.exceptions import UnsupportedPairError
+#from bitex.exceptions import UnsupportedPairError
 from bitex.api.REST.coinnest import CoinnestREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
@@ -30,7 +26,10 @@ class Coinnest(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        pairs=["btc","bch","btg","bcd","ubtc","btn","kst","ltc","act","eth","etc","ada","qtum","xlm","neo","gas","rpx","qlc","hsr","knc","tsl","tron","omg","wtc","mco","storm","gto","npxs","chat","vet","egcc","frec","ink","oc","hlc","ent","qbt","spc","put","hotc"]
+        pairs = ["btc", "bch", "btg", "bcd", "ubtc", "btn", "kst", "ltc", "act", "eth", "etc",
+                 "ada", "qtum", "xlm", "neo", "gas", "rpx", "qlc", "hsr", "knc", "tsl", "tron",
+                 "omg", "wtc", "mco", "storm", "gto", "npxs", "chat", "vet", "egcc", "frec",
+                 "ink", "oc", "hlc", "ent", "qbt", "spc", "put", "hotc"]
         return pairs
 
     def request(self, endpoint, authenticate=False, **kwargs):

@@ -29,10 +29,12 @@ class BitstampFormattedResponse(APIResponse):
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        asks=[]
-        bids=[]
-        for i in data['asks']: asks.append([float(i[0]), float(i[1])])
-        for i in data['bids']: bids.append([float(i[0]), float(i[1])])
+        asks = []
+        bids = []
+        for i in data['asks']:
+            asks.append([float(i[0]), float(i[1])])
+        for i in data['bids']:
+            bids.append([float(i[0]), float(i[1])])
 
         return super(BitstampFormattedResponse, self).order_book(bids, asks, int(data['timestamp']))
 
@@ -92,10 +94,10 @@ class BitstampFormattedResponse(APIResponse):
 
     def wallet(self):
         data = self.json(parse_int=str, parse_float=str)
-        balances={}
+        balances = {}
         for i in data:
-            if i[-10:]=='_available':
-                available=float(data[i])
-                if available>0:
-                    balances[i[:-10].upper()]=data[i]
+            if i[-10:] == '_available':
+                available = float(data[i])
+                if available > 0:
+                    balances[i[:-10].upper()] = data[i]
         return super(BitstampFormattedResponse, self).wallet(balances, self.received_at)

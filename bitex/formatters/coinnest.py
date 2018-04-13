@@ -22,15 +22,18 @@ class CoinnestFormattedResponse(APIResponse):
         last = float(data["last"])
         volume = float(data["vol"])
         timestamp = datetime.utcfromtimestamp(float(data["time"]))
-        return super(CoinnestFormattedResponse, self).ticker(bid, ask, high, low, last, volume, timestamp)
+        return super(CoinnestFormattedResponse, self).ticker(bid, ask, high, low, last, volume,
+                                                             timestamp)
 
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        asks=[]
-        bids=[]
-        for i in data['asks']: asks.append([float(i[0]), float(i[1])])
-        for i in data['bids']: bids.append([float(i[0]), float(i[1])])
+        asks = []
+        bids = []
+        for i in data['asks']:
+            asks.append([float(i[0]), float(i[1])])
+        for i in data['bids']:
+            bids.append([float(i[0]), float(i[1])])
         timestamp = datetime.utcnow()
         return super(CoinnestFormattedResponse, self).order_book(bids, asks, timestamp)
 
@@ -60,9 +63,9 @@ class CoinnestFormattedResponse(APIResponse):
 
     def wallet(self):
         data = self.json(parse_int=str, parse_float=str)
-        balances={}
+        balances = {}
         for i in data:
-            if i[-8:]=='_balance':
-                if (i[:-8]=='btc')|(i[:-8]=='krw')|(float(data[i])>0):
-                    balances[i[:-8].upper()]=float(data[i])
+            if i[-8:] == '_balance':
+                if (i[:-8] == 'btc')|(i[:-8] == 'krw')|(float(data[i]) > 0):
+                    balances[i[:-8].upper()] = float(data[i])
         return super(CoinnestFormattedResponse, self).wallet(balances, self.received_at)

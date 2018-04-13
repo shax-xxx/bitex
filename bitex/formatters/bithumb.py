@@ -3,7 +3,6 @@
 from datetime import datetime
 
 # Import third-party
-import pytz
 
 # Import Home-brewed
 from bitex.formatters.base import APIResponse
@@ -27,15 +26,18 @@ class BithumbFormattedResponse(APIResponse):
         volume = data["volume_1day"]
         timestamp = datetime.utcfromtimestamp(float(data["date"])/1000)
 
-        return super(BithumbFormattedResponse, self).ticker(bid, ask, high, low, last, volume, timestamp)
+        return super(BithumbFormattedResponse, self).ticker(bid, ask, high, low, last, volume,
+                                                            timestamp)
 
     def order_book(self):
         """Return namedtuple with given data."""
-        data=(self.json())['data']
-        asks=[]
-        bids=[]
-        for i in data['asks']: asks.append([float(i['price']),float(i['quantity'])])
-        for i in data['bids']: bids.append([float(i['price']),float(i['quantity'])])
+        data = (self.json())['data']
+        asks = []
+        bids = []
+        for i in data['asks']:
+            asks.append([float(i['price']), float(i['quantity'])])
+        for i in data['bids']:
+            bids.append([float(i['price']), float(i['quantity'])])
         return super(BithumbFormattedResponse, self).order_book(bids, asks, int(data['timestamp']))
 
     def trades(self):
@@ -64,11 +66,10 @@ class BithumbFormattedResponse(APIResponse):
 
     def wallet(self):
         data = self.json(parse_int=str, parse_float=str)['data']
-        balances={}
+        balances = {}
         for i in data:
-            if i[:5]=='avail':
-                available=float(data[i])
-                if available>0:
-                    balances[i.split('_')[1].upper()]=available
+            if i[:5] == 'avail':
+                available = float(data[i])
+                if available > 0:
+                    balances[i.split('_')[1].upper()] = available
         return super(BithumbFormattedResponse, self).wallet(balances, self.received_at)
-

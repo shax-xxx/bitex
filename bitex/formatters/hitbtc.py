@@ -22,23 +22,24 @@ class HitBTCFormattedResponse(APIResponse):
         low = data["low"]
         last = data["last"]
         volume = data["volume"]
-        timestamp = datetime.strptime(data['timestamp'][:-5],"%Y-%m-%dT%H:%M:%S")
+        timestamp = datetime.strptime(data['timestamp'][:-5], "%Y-%m-%dT%H:%M:%S")
 
         return super(HitBTCFormattedResponse, self).ticker(bid, ask, high, low, last, volume,
                                                            timestamp)
 
     def order_book(self):
         """Return namedtuple with given data."""
-        pair = self.method_args[1]
         data = self.json()
         if 'asks' in data: # api version 1
             bids = data['bids']
             asks = data['asks']
         else:        # api version 2
-            asks=[]
-            bids=[]
-            for i in data['ask']: asks.append([float(i['price']), float(i['size'])])
-            for i in data['bid']: bids.append([float(i['price']), float(i['size'])])
+            asks = []
+            bids = []
+            for i in data['ask']:
+                asks.append([float(i['price']), float(i['size'])])
+            for i in data['bid']:
+                bids.append([float(i['price']), float(i['size'])])
 
         timestamp = datetime.utcnow()
         return super(HitBTCFormattedResponse, self).order_book(bids, asks, timestamp)
@@ -69,9 +70,9 @@ class HitBTCFormattedResponse(APIResponse):
 
     def wallet(self):
         data = self.json(parse_int=str, parse_float=str)
-        balances={}
+        balances = {}
         for i in data:
-            available=float(i['available'])
-            if (available>0)|(i['currency']=='BTC'):
-                balances[i['currency']]=available
+            available = float(i['available'])
+            if (available > 0)|(i['currency'] == 'BTC'):
+                balances[i['currency']] = available
         return super(HitBTCFormattedResponse, self).wallet(balances, self.received_at)

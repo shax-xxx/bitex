@@ -66,8 +66,7 @@ class PairFormatter:
                            'CEXio': self.cexio_formatter,
                            'Exmo': self.exmo_formatter,
                            'Coinnest': self.coinnest_formatter,
-                           'Gateio': self.gateio_formatter,
-                           }
+                           'Gateio': self.gateio_formatter,}
 
     def __str__(self, *args, **kwargs):
         """Return the stored base and quote currency in proper pair format."""

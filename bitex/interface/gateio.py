@@ -2,11 +2,7 @@
 # pylint: disable=arguments-differ
 # Import Built-Ins
 import logging
-
-import requests
-
-# Import Homebrew
-from bitex.exceptions import UnsupportedPairError
+#from bitex.exceptions import UnsupportedPairError
 from bitex.api.REST.gateio import GateioREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
@@ -30,7 +26,7 @@ class Gateio(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        resp=self.request('data.gateio.io/api2/1/pairs/')
+        resp = self.request('data.gateio.io/api2/1/pairs/')
         return [pair for pair in resp.json()]
 
     def request(self, endpoint, authenticate=False, **kwargs):
@@ -96,9 +92,9 @@ class Gateio(RESTInterface):
 
     @format_with(GateioFormattedResponse)
     def wallet(self, *args, **kwargs):
-        return self.request('api.gateio.io/api2/1/private/balances/', authenticate=True, params=kwargs)
+        return self.request('api.gateio.io/api2/1/private/balances/', authenticate=True,
+                            params=kwargs)
 
     ###########################
     # Exchange Specific Methods
     ###########################
-

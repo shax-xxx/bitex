@@ -1,13 +1,7 @@
 """Bitstamp Interface class."""
 # Import Built-Ins
 import logging
-
-# Import Third-party
-import requests
-
-# Import Homebrew
 from bitex.api.REST.bithumb import BithumbREST
-
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import BithumbFormattedResponse
@@ -27,14 +21,14 @@ class Bithumb(RESTInterface):
         """Generate a request to the API."""
         if not authenticate:
             return super(Bithumb, self).request('GET', endpoint, authenticate=authenticate,
-                                                 **req_kwargs)
+                                                **req_kwargs)
         return super(Bithumb, self).request('POST', endpoint, authenticate=authenticate,
-                                             **req_kwargs)
-
+                                            **req_kwargs)
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        pairs=['BTC', 'ETH', 'DASH', 'LTC', 'ETC', 'XRP', 'BCH', 'XMR', 'ZEC', 'QTUM', 'BTG', 'EOS']
+        pairs = ['BTC', 'ETH', 'DASH', 'LTC', 'ETC', 'XRP', 'BCH', 'XMR', 'ZEC', 'QTUM', 'BTG',
+                 'EOS']
         return pairs
 
     ###############
@@ -97,4 +91,3 @@ class Bithumb(RESTInterface):
     ###########################
     # Exchange Specific Methods
     ###########################
-

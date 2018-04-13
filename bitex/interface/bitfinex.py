@@ -1,11 +1,6 @@
 """Bitfinex Interface class."""
 # Import Built-Ins
 import logging
-
-# Import Third-Party
-import requests
-
-# Import Homebrew
 from bitex.api.REST.bitfinex import BitfinexREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_version_compatibility, check_and_format_pair, format_with
@@ -59,7 +54,8 @@ class Bitfinex(RESTInterface):
             for i in self.symbols().json():
                 ret.append(i.upper())
         else:
-            for i in super(Bitfinex,self).request('GET','https://api.bitfinex.com/v1/symbols',endpointwithversion=True).json():
+            for i in super(Bitfinex, self).request('GET', 'https://api.bitfinex.com/v1/symbols',
+                                                   endpointwithversion=True).json():
                 ret.append(i.upper())
         return ret
 

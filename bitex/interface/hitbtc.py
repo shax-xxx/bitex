@@ -2,9 +2,6 @@
 # Import Built-Ins
 import logging
 
-# Import third-party
-import requests
-
 # Import Homebrew
 from bitex.api.REST.hitbtc import HitBTCREST
 from bitex.interface.rest import RESTInterface
@@ -24,10 +21,11 @@ class HitBTC(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        if self.REST.version=='1':
-            r = super(HitBTC, self).request('GET', 'http://api.hitbtc.com/api/2/public/symbol',endpointwithversion=True)
+        if self.REST.version == '1':
+            r = super(HitBTC, self).request('GET', 'http://api.hitbtc.com/api/2/public/symbol',
+                                            endpointwithversion=True)
         else:
-            r = super(HitBTC, self).request('GET','public/symbol')
+            r = super(HitBTC, self).request('GET', 'public/symbol')
         return [entry['id'] for entry in r.json()]
 
     # pylint: disable=arguments-differ
@@ -45,19 +43,17 @@ class HitBTC(RESTInterface):
     @format_with(HitBTCFormattedResponse)
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
-        if self.REST.version=='1':
+        if self.REST.version == '1':
             return self.request('%s/ticker' % pair, params=kwargs)
-        else:
-            return self.request('ticker/%s' % pair, params=kwargs)
+        return self.request('ticker/%s' % pair, params=kwargs)
 
     @check_and_format_pair
     @format_with(HitBTCFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
-        if self.REST.version=='1':
+        if self.REST.version == '1':
             return self.request('%s/orderbook' % pair, params=kwargs) # Version 1
-        else:
-            return self.request('orderbook/%s' % pair, params=kwargs) # Version 2
+        return self.request('orderbook/%s' % pair, params=kwargs) # Version 2
 
     @check_and_format_pair
     @format_with(HitBTCFormattedResponse)
@@ -122,5 +118,4 @@ class HitBTC(RESTInterface):
         """Return the account's wallet."""
         if self.REST.version == '1':
             return self.request('payment/balance', authenticate=True, params=kwargs)
-        else:
-            return self.request('account/balance', authenticate=True, params=kwargs)
+        return self.request('account/balance', authenticate=True, params=kwargs)

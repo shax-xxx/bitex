@@ -6,11 +6,8 @@ Documentation available at:
 # pylint: disable=too-many-arguments
 # Import Built-ins
 import logging
-import json
 import hashlib
 import hmac
-import base64
-import urllib
 
 # Import Third-Party
 
@@ -23,29 +20,30 @@ log = logging.getLogger(__name__)
 class CEXioREST(RESTAPI):
     """BitHumb REST API class."""
 
-    def __init__(self, addr=None, user_id=None, key=None, secret=None, version=None, config=None, timeout=None):
+    def __init__(self, addr=None, user_id=None, key=None, secret=None, version=None, config=None,
+                 timeout=None):
         """Initialize the class instance."""
         addr = 'https://cex.io/api' if not addr else addr
         self.user_id = user_id
-        super(CEXioREST, self).__init__(addr=addr, version=version, key=key,
-                                           secret=secret, timeout=timeout,
-                                           config=config)
+        super(CEXioREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                        timeout=timeout, config=config)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""
         req_kwargs = super(CEXioREST, self).sign_request_kwargs(endpoint, **kwargs)
 
         # Parameters go into headers & data, so pop params key and generate signature
-        nonce=self.nonce()
+        nonce = self.nonce()
         message = nonce + self.user_id + self.key
-        h = hmac.new(bytes(self.secret,encoding='utf8'),msg=bytes(message,encoding = "utf8"),digestmod=hashlib.sha256)
-        signature=h.hexdigest()
+        sign = hmac.new(bytes(self.secret, encoding='utf8'), msg=bytes(message, encoding="utf8"),
+                        digestmod=hashlib.sha256)
+        signature = sign.hexdigest()
         data = {
             "nonce": nonce,
             "key": self.key,
             "signature": signature,
             "content-type": "application/json"
         }
-        req_kwargs['data']=data
+        req_kwargs['data'] = data
 
         return req_kwargs

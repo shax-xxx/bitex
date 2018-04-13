@@ -83,9 +83,10 @@ class RESTAPI(BaseAPI):
         :return: request.Response() object
         """
 
-        #self.proxies = {"http": "http://127.0.0.1:1087", "https": "http://127.0.0.1:1087"}
+        self.proxies = {"http": "http://127.0.0.1:1087", "https": "http://127.0.0.1:1087"}
         if 'method' not in request_kwargs:
-            resp = requests.request(method_verb, **request_kwargs, proxies=self.proxies, timeout=self.timeout)
+            resp = requests.request(method_verb, **request_kwargs, proxies=self.proxies,
+                                    timeout=self.timeout)
         else:
             resp = requests.request(**request_kwargs, proxies=self.proxies, timeout=self.timeout)
         return resp
@@ -116,6 +117,6 @@ class RESTAPI(BaseAPI):
         request_kwargs['url'] = self.generate_url(self.generate_uri(endpoint))
         if 'endpointwithversion' in request_kwargs:
             if request_kwargs['endpointwithversion']:
-                request_kwargs['url']=endpoint
+                request_kwargs['url'] = endpoint
                 del request_kwargs['endpointwithversion']
         return self._query(method_verb, **request_kwargs)

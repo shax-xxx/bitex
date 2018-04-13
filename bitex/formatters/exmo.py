@@ -24,16 +24,19 @@ class ExmoFormattedResponse(APIResponse):
         last = data["last_trade"]
         volume = data["vol"]
         timestamp = datetime.utcfromtimestamp(float(data["updated"]))
-        return super(ExmoFormattedResponse, self).ticker(bid, ask, high, low, last, volume, timestamp)
+        return super(ExmoFormattedResponse, self).ticker(bid, ask, high, low, last, volume,
+                                                         timestamp)
 
     def order_book(self):
         """Return namedtuple with given data."""
         pair = self.method_args[1]
         data = self.json()[pair]
-        asks=[]
-        bids=[]
-        for i in data['ask']: asks.append([float(i[0]), float(i[1])])
-        for i in data['bid']: bids.append([float(i[0]), float(i[1])])
+        asks = []
+        bids = []
+        for i in data['ask']:
+            asks.append([float(i[0]), float(i[1])])
+        for i in data['bid']:
+            bids.append([float(i[0]), float(i[1])])
         timestamp = datetime.utcnow()
         return super(ExmoFormattedResponse, self).order_book(bids, asks, timestamp)
 
@@ -63,8 +66,8 @@ class ExmoFormattedResponse(APIResponse):
 
     def wallet(self):
         data = self.json(parse_int=str, parse_float=str)['balances']
-        balances={}
+        balances = {}
         for i in data:
-            if (i=='BTC')|(i=='USD')|(float(data[i])>0):
-                balances[i]=float(data[i])
+            if (i == 'BTC')|(i == 'USD')|(float(data[i]) > 0):
+                balances[i] = float(data[i])
         return super(ExmoFormattedResponse, self).wallet(balances, self.received_at)

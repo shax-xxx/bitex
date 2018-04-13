@@ -2,11 +2,7 @@
 # pylint: disable=arguments-differ
 # Import Built-Ins
 import logging
-
-import requests
-
-# Import Homebrew
-from bitex.exceptions import UnsupportedPairError
+#from bitex.exceptions import UnsupportedPairError
 from bitex.api.REST.exmo import ExmoREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
@@ -30,7 +26,7 @@ class Exmo(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        resp=self.request('v1/pair_settings/')
+        resp = self.request('v1/pair_settings/')
         return [pair for pair in resp.json()]
 
     def request(self, endpoint, authenticate=False, **kwargs):

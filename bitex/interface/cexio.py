@@ -21,16 +21,15 @@ class CEXio(RESTInterface):
 
     def __init__(self, **api_kwargs):
         """Initialize Interface class instance."""
-        if 'key' in api_kwargs: key = api_kwargs['key']
+        #if 'key' in api_kwargs: key = api_kwargs['key']
         super(CEXio, self).__init__('CEXio', CEXioREST(**api_kwargs))
 
     def request(self, endpoint, authenticate=False, **req_kwargs):
         """Generate a request to the API."""
         if not authenticate:
             return super(CEXio, self).request('GET', endpoint, authenticate=authenticate,
-                                                 **req_kwargs)
-        return super(CEXio, self).request('POST', endpoint, authenticate=authenticate,
-                                             **req_kwargs)
+                                              **req_kwargs)
+        return super(CEXio, self).request('POST', endpoint, authenticate=authenticate, **req_kwargs)
 
 
     def _get_supported_pairs(self):
@@ -46,13 +45,13 @@ class CEXio(RESTInterface):
     @check_and_format_pair
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
-        return self.request('ticker/%s/%s' % (pair[:-3],pair[-3:]))
+        return self.request('ticker/%s/%s' % (pair[:-3], pair[-3:]))
 
     @check_and_format_pair
     @format_with(CEXioFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for a given pair."""
-        return self.request('order_book/%s/%s' % (pair[:-3],pair[-3:]))
+        return self.request('order_book/%s/%s' % (pair[:-3], pair[-3:]))
 
     @check_and_format_pair
     @format_with(CEXioFormattedResponse)
@@ -97,4 +96,3 @@ class CEXio(RESTInterface):
     ###########################
     # Exchange Specific Methods
     ###########################
-

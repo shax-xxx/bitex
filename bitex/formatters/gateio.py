@@ -14,7 +14,6 @@ class GateioFormattedResponse(APIResponse):
 
     def ticker(self):
         """Return namedtuple with given data."""
-        pair = self.method_args[1]
         data = self.json(parse_int=str, parse_float=str)
 
         bid = data["highestBid"]
@@ -24,15 +23,18 @@ class GateioFormattedResponse(APIResponse):
         last = data["last"]
         volume = data["quoteVolume"] #"quoteVolume"
         timestamp = datetime.utcnow()
-        return super(GateioFormattedResponse, self).ticker(bid, ask, high, low, last, volume, timestamp)
+        return super(GateioFormattedResponse, self).ticker(bid, ask, high, low, last, volume,
+                                                           timestamp)
 
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        asks=[]
-        bids=[]
-        for i in data['asks'][::-1]: asks.append([float(i[0]), float(i[1])])
-        for i in data['bids']: bids.append([float(i[0]), float(i[1])])
+        asks = []
+        bids = []
+        for i in data['asks'][::-1]:
+            asks.append([float(i[0]), float(i[1])])
+        for i in data['bids']:
+            bids.append([float(i[0]), float(i[1])])
         timestamp = datetime.utcnow()
         return super(GateioFormattedResponse, self).order_book(bids, asks, timestamp)
 
@@ -62,8 +64,8 @@ class GateioFormattedResponse(APIResponse):
 
     def wallet(self):
         data = self.json(parse_int=str, parse_float=str)['available']
-        balances={}
+        balances = {}
         for i in data:
-            if (i=='BTC')|(i=='USD')|(float(data[i])>0):
-                balances[i]=float(data[i])
+            if (i == 'BTC')|(i == 'USD')|(float(data[i]) > 0):
+                balances[i] = float(data[i])
         return super(GateioFormattedResponse, self).wallet(balances, self.received_at)

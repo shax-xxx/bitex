@@ -1,13 +1,7 @@
 """CoinOne Interface class."""
 # Import Built-Ins
 import logging
-
-# Import Third-party
-import requests
-
-# Import Homebrew
 from bitex.api.REST.coinone import CoinoneREST
-
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import CoinoneFormattedResponse
@@ -21,21 +15,20 @@ class Coinone(RESTInterface):
 
     def __init__(self, **api_kwargs):
         """Initialize Interface class instance."""
-        if 'key' in api_kwargs: key = api_kwargs['key']
+        #if 'key' in api_kwargs: key = api_kwargs['key']
         super(Coinone, self).__init__('Coinone', CoinoneREST(**api_kwargs))
 
     def request(self, endpoint, authenticate=False, **req_kwargs):
         """Generate a request to the API."""
         if not authenticate:
             return super(Coinone, self).request('GET', endpoint, authenticate=authenticate,
-                                                 **req_kwargs)
+                                                **req_kwargs)
         return super(Coinone, self).request('POST', endpoint, authenticate=authenticate,
-                                             **req_kwargs)
-
+                                            **req_kwargs)
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs, CoinOne just support KRW."""
-        pairs=["btc","bch","eth","etc","xrp","qtum","iota","ltc","btg"]
+        pairs = ["btc", "bch", "eth", "etc", "xrp", "qtum", "iota", "ltc", "btg"]
         return pairs
 
     ###############
@@ -94,10 +87,9 @@ class Coinone(RESTInterface):
     def wallet(self, *args, currency=None, **kwargs):  # pylint: disable=arguments-differ
         """Return the account wallet."""
         payload = kwargs
-        payload['access_token']=self.REST.key
+        payload['access_token'] = self.REST.key
         return self.request('v2/account/balance/', params=payload, authenticate=True)
 
     ###########################
     # Exchange Specific Methods
     ###########################
-

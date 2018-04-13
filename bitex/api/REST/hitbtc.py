@@ -16,8 +16,8 @@ log = logging.getLogger(__name__)
 class HitBTCREST(RESTAPI):
     """HitBTC REST API class."""
 
-    def __init__(self, key=None, secret=None, version=None,
-                 addr=None, timeout=5, config=None,user_id=None):
+    def __init__(self, key=None, secret=None, version=None, addr=None, timeout=5, config=None,
+                 user_id=None):
         """Initialize the class instance."""
         version = '2' if not version else version
         addr = 'https://api.hitbtc.com/api' if not addr else addr

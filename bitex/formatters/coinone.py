@@ -1,11 +1,6 @@
 """FormattedResponse Class for Standardized methods of the Coinone Interface class."""
 # Import Built-ins
 from datetime import datetime
-
-# Import third-party
-import pytz
-
-# Import Home-brewed
 from bitex.formatters.base import APIResponse
 
 
@@ -32,11 +27,13 @@ class CoinoneFormattedResponse(APIResponse):
 
     def order_book(self):
         """Return namedtuple with given data."""
-        data=self.json()
-        asks=[]
-        bids=[]
-        for i in data['ask']: asks.append([float(i['price']),float(i['qty'])])
-        for i in data['bid']: bids.append([float(i['price']),float(i['qty'])])
+        data = self.json()
+        asks = []
+        bids = []
+        for i in data['ask']:
+            asks.append([float(i['price']), float(i['qty'])])
+        for i in data['bid']:
+            bids.append([float(i['price']), float(i['qty'])])
         return super(CoinoneFormattedResponse, self).order_book(bids, asks, int(data['timestamp']))
 
     def trades(self):
@@ -70,8 +67,7 @@ class CoinoneFormattedResponse(APIResponse):
         data.pop('normalWallets')
         balances = {}
         for i in data:
-            available=float(data[i]['avail'])
-            if available>0:
-                balances[i.upper()]=available
+            available = float(data[i]['avail'])
+            if available > 0:
+                balances[i.upper()] = available
         return super(CoinoneFormattedResponse, self).wallet(balances, self.received_at)
-
