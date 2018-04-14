@@ -8,7 +8,7 @@ import logging
 # Import Homebrew
 from bitex.exceptions import UnsupportedEndpointError
 from bitex.pairs import PairFormatter
-
+from datetime import datetime
 
 log = logging.getLogger(__name__)
 
@@ -53,7 +53,7 @@ def check_and_format_pair(func):
     @wraps(func)
     def wrapped(self, *args, **kwargs):
         """Wrap function."""
-        print(args)
+        # print(args)
         pair, *remaining_args = args
         try:
             if isinstance(pair, PairFormatter):
@@ -102,3 +102,25 @@ def format_with(formatter):
         return wrapper
 
     return real_decorator
+
+def timetrans(atime, tgttype):
+    if isinstance(atime,str):
+        if atime == 'now':
+            dtdt = datetime.utcnow()
+        elif len(atime)>19:
+            dtdt = datetime.strptime(atime, '%Y-%m-%d %H:%M:%S.%f')
+        else:
+            dtdt = datetime.strptime(atime, '%Y-%m-%d %H:%M:%S')
+    elif isinstance(atime,datetime):
+        dtdt = atime
+    else:   # float timestamp
+        dtdt = datetime.fromtimestamp(ts)
+
+    if tgttype == 'str':
+        ret = datetime.strftime(dtdt, '%Y-%m-%d %H:%M:%S')
+    elif tgttype == 'datetime':
+        ret = dtdt
+    else:   # float timestamp
+        ret = datetime.timestamp(dtdt)
+
+    return ret
