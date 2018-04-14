@@ -2,13 +2,13 @@
 # Import Built-ins
 import os
 import configparser
-from functools import wraps
 import logging
+from functools import wraps
+from datetime import datetime
 
 # Import Homebrew
 from bitex.exceptions import UnsupportedEndpointError
 from bitex.pairs import PairFormatter
-from datetime import datetime
 
 log = logging.getLogger(__name__)
 
@@ -104,17 +104,17 @@ def format_with(formatter):
     return real_decorator
 
 def timetrans(atime, tgttype):
-    if isinstance(atime,str):
+    if isinstance(atime, str):
         if atime == 'now':
             dtdt = datetime.utcnow()
-        elif len(atime)>19:
+        elif len(atime) > 19:
             dtdt = datetime.strptime(atime, '%Y-%m-%d %H:%M:%S.%f')
         else:
             dtdt = datetime.strptime(atime, '%Y-%m-%d %H:%M:%S')
-    elif isinstance(atime,datetime):
+    elif isinstance(atime, datetime):
         dtdt = atime
     else:   # float timestamp
-        dtdt = datetime.fromtimestamp(ts)
+        dtdt = datetime.fromtimestamp(atime)
 
     if tgttype == 'str':
         ret = datetime.strftime(dtdt, '%Y-%m-%d %H:%M:%S')

@@ -52,8 +52,9 @@ class BitfinexFormattedResponse(APIResponse):
         tradelst = []
         timestamp = datetime.utcnow()
         for trade in data:
-            tradelst.append({'id':trade['tid'],'price':trade['price'],'qty':trade['amount'],
-                             'time':trade['timestamp']+'000','isBuyerMaker':trade['type']=='buy','isBestMatch':None})
+            tradelst.append({'id':trade['tid'], 'price':trade['price'], 'qty':trade['amount'],
+                             'time':trade['timestamp']+'000', 'isBuyerMaker':trade['type'] == 'buy',
+                             'isBestMatch':None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError
         return super(BitfinexFormattedResponse, self).trades(tradelst, timestamp)
@@ -61,27 +62,34 @@ class BitfinexFormattedResponse(APIResponse):
     def bid(self):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
-        ts, side = datetime.utcfromtimestamp(float(data["timestamp"])), 'ask' if data['side']=='sell' else 'bid'
-        return super(BitfinexFormattedResponse, self).bid(data['id'], data['price'], data['remaining_amount'], side, data['type'], ts)
+        ts = datetime.utcfromtimestamp(float(data["timestamp"]))
+        side = 'ask' if data['side'] == 'sell' else 'bid'
+        return super(BitfinexFormattedResponse, self).bid(data['id'], data['price'],
+                                                          data['remaining_amount'], side,
+                                                          data['type'], ts)
 
     def ask(self):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
-        ts, side = datetime.utcfromtimestamp(float(data["timestamp"])), 'ask' if data['side'] == 'sell' else 'bid'
-        return super(BitfinexFormattedResponse, self).bid(data['id'], data['price'], data['remaining_amount'], side,
+        ts = datetime.utcfromtimestamp(float(data["timestamp"]))
+        side = 'ask' if data['side'] == 'sell' else 'bid'
+        return super(BitfinexFormattedResponse, self).bid(data['id'], data['price'],
+                                                          data['remaining_amount'], side,
                                                           data['type'], ts)
     def order_status(self):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
         if 'id' not in data:
-            extracted_data = (0, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', datetime.utcnow(), data['message'])
+            extracted_data = (0, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', datetime.utcnow(),
+                              data['message'])
         else:
             # oid = self.method_args[0]
-            side='ask' if data['side']=='sell' else 'bid'
+            side = 'ask' if data['side'] == 'sell' else 'bid'
             state = 'is_live' if data['is_live'] else 'is_not_live'
             ts = datetime.utcfromtimestamp(float(data['timestamp']))
             error = 'is_cancelled' if data['is_cancelled'] else None
-            extracted_data = (data['id'], data['price'], data['remaining_amount'], side, data['type'], state, ts, error)
+            extracted_data = (data['id'], data['price'], data['remaining_amount'],
+                              side, data['type'], state, ts, error)
         return super(BitfinexFormattedResponse, self).order_status(*extracted_data)
 
     def cancel_order(self):
@@ -90,7 +98,8 @@ class BitfinexFormattedResponse(APIResponse):
         if 'id' not in data:
             extracted_data = (0, False, None, data['message'])
         else:
-            extracted_data = (data['id'], 'ask' if data['side'] == 'sell' else 'bid', datetime.utcnow())
+            extracted_data = (data['id'], 'ask' if data['side'] == 'sell' else 'bid',
+                              datetime.utcnow())
 
         return super(BitfinexFormattedResponse, self).cancel_order(*extracted_data)
 
@@ -99,7 +108,7 @@ class BitfinexFormattedResponse(APIResponse):
         data = self.json(parse_int=str, parse_float=str)
         unpacked_orders = []
         for order in data:
-            side = 'ask' if order['side']=='sell' else 'bid'
+            side = 'ask' if order['side'] == 'sell' else 'bid'
             if 'pair' in self.method_kwargs:
                 unpacked_order = (order['id'], self.method_kwargs['pair'], order['price'],
                                   order['remaining_amount'], side, order['timestamp'])

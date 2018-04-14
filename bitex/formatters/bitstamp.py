@@ -1,6 +1,5 @@
 """FormattedResponse Class for Standardized methods of the Bitstamp Interface class."""
 # Import Built-ins
-import time
 from datetime import datetime
 
 # Import Home-brewed
@@ -45,8 +44,9 @@ class BitstampFormattedResponse(APIResponse):
         tradelst = []
         timestamp = datetime.utcnow()
         for trade in data:
-            tradelst.append({'id':trade['tid'],'price':trade['price'],'qty':trade['amount'],
-                             'time':int(trade['date'])*1000,'isBuyerMaker':trade['type']=='0','isBestMatch':None})
+            tradelst.append({'id':trade['tid'], 'price':trade['price'], 'qty':trade['amount'],
+                             'time':int(trade['date'])*1000, 'isBuyerMaker':trade['type'] == '0',
+                             'isBestMatch':None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError
         return super(BitstampFormattedResponse, self).trades(tradelst, timestamp)
@@ -54,16 +54,18 @@ class BitstampFormattedResponse(APIResponse):
     def bid(self):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
-        ts = timetrans(data['datetime'],'datetime')
+        ts = timetrans(data['datetime'], 'datetime')
         side = 'ask' if data['type'] else 'bid'
-        return super(BitstampFormattedResponse, self).bid(data['id'], data['price'], data['amount'], side, 'N/A', ts)
+        return super(BitstampFormattedResponse, self).bid(data['id'], data['price'], data['amount'],
+                                                          side, 'N/A', ts)
 
     def ask(self):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
-        ts = timetrans(data['datetime'],'datetime')
+        ts = timetrans(data['datetime'], 'datetime')
         side = 'ask' if data['type'] else 'bid'
-        return super(BitstampFormattedResponse, self).ask(data['id'], data['price'], data['amount'], side, 'N/A', ts)
+        return super(BitstampFormattedResponse, self).ask(data['id'], data['price'], data['amount'],
+                                                          side, 'N/A', ts)
 
     def order_status(self):
         """Return namedtuple with given data."""
@@ -75,7 +77,7 @@ class BitstampFormattedResponse(APIResponse):
             state = data['status']
             # oid = self.method_args[0]
             oid = data['id']
-            error = 'Canceled' if data['status']=='Canceled' else None
+            error = 'Canceled' if data['status'] == 'Canceled' else None
             extracted_data = (oid, 'N/A', 'N/A', 'N/A', 'N/A', state, ts, error)
         return super(BitstampFormattedResponse, self).order_status(*extracted_data)
 
@@ -83,11 +85,11 @@ class BitstampFormattedResponse(APIResponse):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=float)
         if 'id' not in data:
-            extracted_data = (0, False, datetime.utcnow(), data['error'])
+            extra_data = (0, False, datetime.utcnow(), data['error'])
         else:
-            extracted_data = (data['id'], 'ask' if data['type']=='1' else 'bid', datetime.utcnow())
+            extra_data = (data['id'], 'ask' if data['type'] == '1' else 'bid', datetime.utcnow())
 
-        return super(BitstampFormattedResponse, self).cancel_order(*extracted_data)
+        return super(BitstampFormattedResponse, self).cancel_order(*extra_data)
 
     def open_orders(self):
         """Return namedtuple with given data."""
@@ -97,10 +99,10 @@ class BitstampFormattedResponse(APIResponse):
             side = 'ask' if order['type'] == '1' else 'bid'
             if 'pair' in self.method_kwargs:
                 unpacked_order = (order['id'], self.method_kwargs['pair'], order['price'],
-                                  order['amount'], side, timetrans(order['datetime'],'timestamp'))
+                                  order['amount'], side, timetrans(order['datetime'], 'timestamp'))
             else:
-                unpacked_order = (order['id'], order['currency_pair'], order['price'], order['amount'],
-                                  side, timetrans(order['datetime'],'timestamp'))
+                unpacked_order = (order['id'], order['currency_pair'], order['price'],
+                                  order['amount'], side, timetrans(order['datetime'], 'timestamp'))
             unpacked_orders.append(unpacked_order)
 
         ts = self.received_at
