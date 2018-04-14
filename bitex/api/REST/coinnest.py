@@ -24,12 +24,12 @@ class CoinnestREST(RESTAPI):
     """Coinnest REST API class."""
 
     def __init__(self, addr=None, user_id=None, key=None, secret=None, version=None, timeout=5,
-                 config=None):
+                 config=None, proxies=None):
         """Initialize the class instance."""
         addr = addr or 'https://api.coinnest.co.kr'
         super(CoinnestREST, self).__init__(addr=addr, version=version,
                                            key=key, secret=secret,
-                                           timeout=timeout, config=config)
+                                           timeout=timeout, config=config, proxies=proxies)
 
     def check_auth_requirements(self):
         """Check if authentication requirements are met."""

@@ -29,7 +29,7 @@ class Bitstamp(RESTInterface):
         resp = super(Bitstamp, self).request('GET',
                                              'https://www.bitstamp.net/api/v2/trading-pairs-info/',
                                              endpointwithversion=True)
-        return [pair["name"].replace("/", "") for pair in resp.json()]
+        return [pair["name"].replace("/", "").lower() for pair in resp.json()]
 
     def request(self, endpoint, authenticate=False, **kwargs):
         """Generate a request to the API."""
@@ -86,7 +86,7 @@ class Bitstamp(RESTInterface):
         """Return the order status for the given order's ID."""
         payload = {'id': order_id}
         payload.update(kwargs)
-        return self.request('api/order_status/', authenticate=True, params=payload)
+        return self.request('order_status/', authenticate=True, params=payload)
 
     @format_with(BitstampFormattedResponse)
     def open_orders(self, *args, pair=None, **kwargs):
@@ -114,7 +114,6 @@ class Bitstamp(RESTInterface):
                 pair = kwargs['pair'].format_for(self.name).lower()
             except AttributeError:
                 pair = kwargs['pair']
-
             return self.request('balance/%s/' % pair, authenticate=True, params=kwargs)
         return self.request('balance/', authenticate=True, params=kwargs)
 

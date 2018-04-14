@@ -1,5 +1,6 @@
 """FormattedResponse Class for Standardized methods of the Bitstamp Interface class."""
 # Import Built-ins
+import time
 from datetime import datetime
 
 # Import Home-brewed
@@ -40,7 +41,15 @@ class BitstampFormattedResponse(APIResponse):
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()
+        tradelst = []
+        timestamp = datetime.utcnow()
+        for trade in data:
+            tradelst.append({'id':trade['tid'],'price':trade['price'],'qty':trade['amount'],
+                             'time':int(time.time()*1000),'isBuyerMaker':trade['type']=='0','isBestMatch':None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(BitstampFormattedResponse, self).trades(tradelst, timestamp)
 
     def bid(self):
         """Return namedtuple with given data."""
@@ -60,7 +69,8 @@ class BitstampFormattedResponse(APIResponse):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
         state = data['status']
-        oid = self.method_args[0]
+        # oid = self.method_args[0]
+        oid = data['id']
         ts = self.received_at
         return super(BitstampFormattedResponse, self).order_status(
             oid, 'N/A', 'N/A', 'N/A', 'N/A', state, ts)
@@ -68,8 +78,11 @@ class BitstampFormattedResponse(APIResponse):
     def cancel_order(self):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=float)
-        extracted_data = (data['id'], True if ('error' in data and data['error']) else False,
-                          data['datetime'], data['error'] if 'error' in data else None)
+        if 'error' in data:
+            extracted_data=(0, False, None, data['error'])
+        else:
+            extracted_data = (data['id'], 'ask' if data['type']=='1' else 'bid')
+
         return super(BitstampFormattedResponse, self).cancel_order(*extracted_data)
 
     def open_orders(self):
@@ -77,16 +90,16 @@ class BitstampFormattedResponse(APIResponse):
         data = self.json(parse_int=str, parse_float=str)
         unpacked_orders = []
         for order in data:
-            if order['type']:
+            if order['type'] == '1':
                 side = 'ask'
             else:
                 side = 'bid'
             if 'pair' in self.method_kwargs:
-                unpacked_order = (data['id'], self.method_kwargs['pair'], data['price'],
-                                  data['amount'], side, data['datetime'])
+                unpacked_order = (order['id'], self.method_kwargs['pair'], order['price'],
+                                  order['amount'], side, order['datetime'])
             else:
-                unpacked_order = (data['id'], data['currency_pair'], data['price'], data['amount'],
-                                  side, data['datetime'])
+                unpacked_order = (order['id'], order['currency_pair'], order['price'], order['amount'],
+                                  side, order['datetime'])
             unpacked_orders.append(unpacked_order)
 
         ts = self.received_at

@@ -23,7 +23,7 @@ class BitstampREST(RESTAPI):
     """Bitstamp REST API class."""
 
     def __init__(self, addr=None, user_id=None, key=None, secret=None,
-                 version=None, timeout=5, config=None):
+                 version=None, timeout=5, config=None, proxies=None):
         """Initialize the class instance."""
         addr = addr or 'https://www.bitstamp.net/api'
         if user_id == '':
@@ -33,7 +33,7 @@ class BitstampREST(RESTAPI):
         self.user_id = user_id
         super(BitstampREST, self).__init__(addr=addr, version=version,
                                            key=key, secret=secret,
-                                           timeout=timeout, config=config)
+                                           timeout=timeout, config=config, proxies=proxies)
 
     def check_auth_requirements(self):
         """Check if authentication requirements are met."""

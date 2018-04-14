@@ -53,6 +53,7 @@ def check_and_format_pair(func):
     @wraps(func)
     def wrapped(self, *args, **kwargs):
         """Wrap function."""
+        print(args)
         pair, *remaining_args = args
         try:
             if isinstance(pair, PairFormatter):

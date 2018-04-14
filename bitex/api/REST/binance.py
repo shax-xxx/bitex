@@ -24,13 +24,13 @@ class BinanceREST(RESTAPI):
     """Bitfinex REST API class."""
 
     def __init__(self, key=None, secret=None, version=None, addr=None, timeout=None, config=None,
-                 user_id=None):
+                 user_id=None, proxies=None):
         """Initialize the class instance."""
         addr = 'https://api.binance.com/api'
         # We force version to None here as different endpoints require different versions,
         # so the interface will have to define the version as part of the endpoint.
         super(BinanceREST, self).__init__(addr=addr, version=None, key=key, secret=secret,
-                                          timeout=timeout, config=config)
+                                          timeout=timeout, config=config, proxies=proxies)
 
     def private_query(self, method_verb, endpoint, **request_kwargs):
         """

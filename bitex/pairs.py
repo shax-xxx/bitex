@@ -107,7 +107,7 @@ class PairFormatter:
     @staticmethod
     def bitstamp_formatter(base, quote):
         """Format currencies for Bitstamp."""
-        return base + quote
+        return base.lower() + quote.lower()
 
     @staticmethod
     def bithumb_formatter(base, quote):

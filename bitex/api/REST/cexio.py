@@ -21,12 +21,12 @@ class CEXioREST(RESTAPI):
     """BitHumb REST API class."""
 
     def __init__(self, addr=None, user_id=None, key=None, secret=None, version=None, config=None,
-                 timeout=None):
+                 timeout=None, proxies=None):
         """Initialize the class instance."""
         addr = 'https://cex.io/api' if not addr else addr
         self.user_id = user_id
         super(CEXioREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
-                                        timeout=timeout, config=config)
+                                        timeout=timeout, config=config, proxies=proxies)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""

@@ -23,12 +23,12 @@ class BithumbREST(RESTAPI):
     """BitHumb REST API class."""
 
     def __init__(self, addr=None, key=None, secret=None, version=None, config=None, timeout=None,
-                 user_id=None):
+                 user_id=None, proxies=None):
         """Initialize the class instance."""
         addr = 'https://api.bithumb.com' if not addr else addr
         super(BithumbREST, self).__init__(addr=addr, version=version, key=key,
                                           secret=secret, timeout=timeout,
-                                          config=config)
+                                          config=config, proxies=proxies)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""
