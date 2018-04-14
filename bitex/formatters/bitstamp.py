@@ -68,18 +68,22 @@ class BitstampFormattedResponse(APIResponse):
     def order_status(self):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
-        state = data['status']
-        # oid = self.method_args[0]
-        oid = data['id']
         ts = self.received_at_dt
-        return super(BitstampFormattedResponse, self).order_status(
-            oid, 'N/A', 'N/A', 'N/A', 'N/A', state, ts)
+        if 'id' not in data:
+            extracted_data = (0, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', ts, data['reason'])
+        else:
+            state = data['status']
+            # oid = self.method_args[0]
+            oid = data['id']
+            error = 'Canceled' if data['status']=='Canceled' else None
+            extracted_data = (oid, 'N/A', 'N/A', 'N/A', 'N/A', state, ts, error)
+        return super(BitstampFormattedResponse, self).order_status(*extracted_data)
 
     def cancel_order(self):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=float)
-        if 'error' in data:
-            extracted_data = (0, False, None, data['error'])
+        if 'id' not in data:
+            extracted_data = (0, False, datetime.utcnow(), data['error'])
         else:
             extracted_data = (data['id'], 'ask' if data['type']=='1' else 'bid', datetime.utcnow())
 

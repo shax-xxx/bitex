@@ -90,9 +90,8 @@ class APIResponse(requests.Response, metaclass=ABCMeta):
     @abstractmethod
     def order_status(self, oid, price, size, side, otype, state, ts, error=None):
         """Return namedtuple with given data."""
-        order_status = namedtuple('Order',
-                                  ("order_id", "price", "size", "side", "order_type", "state",
-                                   "timestamp", "error"))
+        order_status = namedtuple('Order', ("order_id", "price", "size", "side", "order_type",
+                                            "state", "timestamp", "error"))
         return order_status(oid, price, size, side, otype, state, ts, error)
 
     @abstractmethod

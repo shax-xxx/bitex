@@ -93,20 +93,22 @@ class Bitfinex(RESTInterface):
 
     @check_and_format_pair
     @format_with(BitfinexFormattedResponse)
-    def ask(self, pair, price, size, *args, **kwargs):
+    def ask(self, pair, price, size, *args, market=False, **kwargs):
         """Place an ask order with the given parameters."""
-        return self._place_order(pair, price, size, 'sell', **kwargs)
+        return self._place_order(pair, price, size, 'sell', market=market, **kwargs)
 
     @check_and_format_pair
     @format_with(BitfinexFormattedResponse)
-    def bid(self, pair, price, size, *args, **kwargs):
+    def bid(self, pair, price, size, *args, market=False, **kwargs):
         """Place a bid order with the given parameters."""
-        return self._place_order(pair, price, size, 'buy', **kwargs)
+        return self._place_order(pair, price, size, 'buy', market=market, **kwargs)
 
-    def _place_order(self, pair, price, size, side, **kwargs):
+    def _place_order(self, pair, price, size, side, market=None, **kwargs):
         """Place an order with the given parameters."""
-        payload = {'symbol': pair, 'price': price, 'amount': size, 'side': side,
-                   'type': 'exchange limit'}
+        if market:
+            payload = {'symbol': pair, 'price': str(price), 'amount': str(size), 'side': side, 'type': 'exchange market'}
+        else:
+            payload = {'symbol': pair, 'price': str(price), 'amount': str(size), 'side': side, 'type': 'exchange limit'}
         payload.update(kwargs)
         return self.new_order(pair, **payload)
 
@@ -114,7 +116,7 @@ class Bitfinex(RESTInterface):
     @format_with(BitfinexFormattedResponse)
     def order_status(self, order_id, *args, **kwargs):
         """Return the order status for the given id."""
-        return self.request('order/status', authenticate=True, params={'order_id': order_id})
+        return self.request('order/status', authenticate=True, params={'order_id': int(order_id)})
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     @format_with(BitfinexFormattedResponse)
@@ -129,7 +131,7 @@ class Bitfinex(RESTInterface):
         results = []
         payload = kwargs
         for oid in order_ids:
-            payload.update({'order_id': oid})
+            payload.update({'order_id': int(oid)})
             r = self.request('order/cancel', authenticate=True,
                              params=payload)
             results.append(r)
