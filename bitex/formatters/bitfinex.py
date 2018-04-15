@@ -52,9 +52,9 @@ class BitfinexFormattedResponse(APIResponse):
         tradelst = []
         timestamp = datetime.utcnow()
         for trade in data:
-            tradelst.append({'id':trade['tid'], 'price':trade['price'], 'qty':trade['amount'],
-                             'time':trade['timestamp']+'000', 'isBuyerMaker':trade['type'] == 'buy',
-                             'isBestMatch':None})
+            tradelst.append({'id': trade['tid'], 'price': trade['price'], 'qty': trade['amount'],
+                             'time': trade['timestamp']+'000', 'isBuyerMaker': trade['type'] == 'buy',
+                             'isBestMatch': None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError
         return super(BitfinexFormattedResponse, self).trades(tradelst, timestamp)
@@ -76,6 +76,7 @@ class BitfinexFormattedResponse(APIResponse):
         return super(BitfinexFormattedResponse, self).bid(data['id'], data['price'],
                                                           data['remaining_amount'], side,
                                                           data['type'], ts)
+
     def order_status(self):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
@@ -103,7 +104,7 @@ class BitfinexFormattedResponse(APIResponse):
 
         return super(BitfinexFormattedResponse, self).cancel_order(*extracted_data)
 
-    def open_orders(self): # 'Open_Orders', ('orders', 'timestamp', "error")
+    def open_orders(self):  # 'Open_Orders', ('orders', 'timestamp', "error")
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
         unpacked_orders = []

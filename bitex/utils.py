@@ -103,6 +103,7 @@ def format_with(formatter):
 
     return real_decorator
 
+
 def timetrans(atime, tgttype):
     """Datetime format transform."""
     if isinstance(atime, str):
