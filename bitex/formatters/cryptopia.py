@@ -69,7 +69,7 @@ class CryptopiaFormattedResponse(APIResponse):
     def wallet(self):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
-        data=data['Data']
+        data = data['Data']
         balances = {}
         for i in data:
             if (i['Symbol'] == 'BTC') or (float(i['Available']) > 0):

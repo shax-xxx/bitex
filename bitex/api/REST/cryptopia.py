@@ -21,6 +21,7 @@ from bitex.api.REST import RESTAPI
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 
+
 def decode_base64(data):
     """Decode base64， padding being optional.
 
@@ -87,7 +88,7 @@ class CryptopiaREST(RESTAPI):
         request_content_b64_string = base64.b64encode(md5.digest()).decode('utf-8')
         signature = (self.key + 'POST' + parsed_url + nonce + request_content_b64_string)
 
-        sec=decode_base64(self.secret.encode())
+        sec = decode_base64(self.secret.encode())
         hmac_sig = base64.b64encode(hmac.new(sec,
                                              signature.encode('utf-8'),
                                              hashlib.sha256).digest())
