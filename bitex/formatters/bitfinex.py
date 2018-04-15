@@ -53,8 +53,8 @@ class BitfinexFormattedResponse(APIResponse):
         timestamp = datetime.utcnow()
         for trade in data:
             tradelst.append({'id': trade['tid'], 'price': trade['price'], 'qty': trade['amount'],
-                             'time': trade['timestamp']+'000', 'isBuyerMaker': trade['type'] == 'buy',
-                             'isBestMatch': None})
+                             'time': trade['timestamp']+'000',
+                             'isBuyerMaker': trade['type'] == 'buy', 'isBestMatch': None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError
         return super(BitfinexFormattedResponse, self).trades(tradelst, timestamp)

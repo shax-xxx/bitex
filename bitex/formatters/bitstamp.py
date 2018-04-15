@@ -6,6 +6,7 @@ from datetime import datetime
 from bitex.formatters.base import APIResponse
 from bitex.utils import timetrans
 
+
 class BitstampFormattedResponse(APIResponse):
     """FormattedResponse class.
 
