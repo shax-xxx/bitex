@@ -12,7 +12,6 @@ log = logging.getLogger(__name__)
 class PairTests(unittest.TestCase):
     def test_that_pair_class_returns_correct_format_for(self):
         pair = PairFormatter('BTC', 'USD')
-
         # Assert All exchanges are supported and format correctly;
         # This excludes edge cases, which are tested separately
         self.assertEqual(pair.format_for('Kraken'), 'XXBTZUSD')
@@ -35,9 +34,12 @@ class PairTests(unittest.TestCase):
         self.assertEqual(pair.format_for('HitBTC'), 'BTCUSD')
         self.assertEqual(pair.format_for('Vaultoro'), 'BTC-USD')
         self.assertEqual(pair.format_for('Bter'), 'btc_usd')
-        self.assertEqual(pair.format_for('Bithumb'), 'BTCUSD')
-        self.assertEqual(pair.format_for('Coinone'), 'BTCUSD')
-        self.assertEqual(pair.format_for('CEXio'), 'btc_usd')
+        self.assertEqual(pair.format_for('CEXio'), 'BTCUSD')
+        self.assertEqual(pair.format_for('Exmo'), 'BTC_USD')
+        self.assertEqual(pair.format_for('Gateio'), 'btc_usdt')
+        self.assertEqual(pair.format_for('Bithumb'), 'BTC')	# only fiat is KRW
+        self.assertEqual(pair.format_for('Coinone'), 'btc')	# only fiat is KRW
+        self.assertEqual(pair.format_for('Coinnest'), 'btc')	# only fiat is KRW
 
         # Assert that calling the formatter returns the standard presentation
         self.assertEqual(str(pair), 'BTCUSD')
