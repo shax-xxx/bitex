@@ -35,7 +35,7 @@ log = logging.getLogger(__name__)
 try:
     tests_folder_dir = os.environ['TRAVIS_BUILD_DIR'] + '/tests/'
 except KeyError:
-    tests_folder_dir = '.'
+    tests_folder_dir = os.path.split(os.path.realpath(__file__))[0]
 
 
 class BitstampRESTTests(TestCase):
