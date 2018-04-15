@@ -515,6 +515,18 @@ class CCEXRESTTest(TestCase):
             self.assertIn('apisign', ret_values['headers'])
             self.assertEqual(ret_values['headers']['apisign'], signature)
 
+def decode_base64(data):
+    """Decode base64， padding being optional.
+
+    :param data: Base64 data as an ASCII byte string
+    :returns: The decoded byte string.
+
+    """
+    missing_padding = 4 - len(data) % 4
+    if missing_padding:
+        data += b'=' * missing_padding
+    return base64.decodebytes(data)
+
 
 class CryptopiaRESTTest(TestCase):
     def test_initialization(self):
@@ -538,15 +550,19 @@ class CryptopiaRESTTest(TestCase):
         with mock.patch.object(RESTAPI, 'nonce', return_value='100'):
             api = CryptopiaREST(key=key, secret=secret, version='v1')
             ret_values = api.sign_request_kwargs('test_signature', params={'param_1': 'abc'})
-            url = 'https://www.cryptopia.co.nz/api/v1/test_signature'
+
             expected_params = {'param_1': 'abc'}
             post_data = json.dumps(expected_params)
+            url = 'https://www.cryptopia.co.nz/Api/test_signature'
+            parsed_url = urllib.parse.quote_plus(url).lower()
+
             md5 = hashlib.md5()
             md5.update(post_data.encode('utf-8'))
-            rcb64 = base64.b64encode(md5.digest())
-            sig = (key + 'POST' + urllib.parse.quote_plus(url).lower() + '100' +
-                   rcb64.decode('utf8'))
-            hmac_sig = base64.b64encode(hmac.new(base64.b64encode(secret.encode('utf-8')),
+            request_content_b64_string = base64.b64encode(md5.digest()).decode('utf-8')
+            sig = (key + 'POST' + parsed_url + '100' + request_content_b64_string)
+
+            sec = decode_base64(secret.encode('utf-8'))
+            hmac_sig = base64.b64encode(hmac.new(sec,
                                                  sig.encode('utf-8'),
                                                  hashlib.sha256).digest())
             signature = 'amx ' + key + ':' + hmac_sig.decode('utf-8') + ':' + '100'

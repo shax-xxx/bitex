@@ -21,12 +21,24 @@ from bitex.api.REST import RESTAPI
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 
+def decode_base64(data):
+    """Decode base64， padding being optional.
+
+    :param data: Base64 data as an ASCII byte string
+    :returns: The decoded byte string.
+
+    """
+    missing_padding = 4 - len(data) % 4
+    if missing_padding:
+        data += b'=' * missing_padding
+    return base64.decodebytes(data)
+
 
 class CryptopiaREST(RESTAPI):
     """Cryptopia REST API class."""
 
     def __init__(self, key=None, secret=None, version=None, config=None,
-                 addr=None, timeout=5):
+                 addr=None, timeout=5, user_id=None, proxies=None):
         """Initialize the class instance."""
         addr = 'https://www.cryptopia.co.nz/api' if not addr else addr
         super(CryptopiaREST, self).__init__(addr=addr, version=version, key=key,
@@ -74,7 +86,9 @@ class CryptopiaREST(RESTAPI):
         md5.update(post_data.encode('utf-8'))
         request_content_b64_string = base64.b64encode(md5.digest()).decode('utf-8')
         signature = (self.key + 'POST' + parsed_url + nonce + request_content_b64_string)
-        hmac_sig = base64.b64encode(hmac.new(base64.b64decode(self.secret),
+
+        sec=decode_base64(self.secret.encode())
+        hmac_sig = base64.b64encode(hmac.new(sec,
                                              signature.encode('utf-8'),
                                              hashlib.sha256).digest())
         header_data = 'amx ' + self.key + ':' + hmac_sig.decode('utf-8') + ':' + nonce

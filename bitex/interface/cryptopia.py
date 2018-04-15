@@ -41,19 +41,19 @@ class Cryptopia(RESTInterface):
     @format_with(CryptopiaFormattedResponse)
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
-        return self.request('GET', 'GetMarket/' + pair, params=kwargs)
+        return self.request('GetMarket/' + pair, params=kwargs)
 
     @check_and_format_pair
     @format_with(CryptopiaFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
-        return self.request('GET', 'GetMarketOrders/' + pair, params=kwargs)
+        return self.request('GetMarketOrders/' + pair, params=kwargs)
 
     @check_and_format_pair
     @format_with(CryptopiaFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return the trades for the given pair."""
-        return self.request('GET', 'GetMarketHistory/' + pair, params=kwargs)
+        return self.request('GetMarketHistory/' + pair, params=kwargs)
 
     # Private Endpoints
     # pylint: disable=unused-argument

@@ -30,7 +30,17 @@ class CryptopiaFormattedResponse(APIResponse):
 
     def order_book(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()['Data']
+        for i in data:
+            print(i)
+        asks = []
+        bids = []
+        for i in data['Sell']:
+            asks.append([float(i['Price']), float(i['Volume'])])
+        for i in data['Buy']:
+            bids.append([float(i['Price']), float(i['Volume'])])
+
+        return super(CryptopiaFormattedResponse, self).order_book(bids, asks, datetime.utcnow())
 
     def trades(self):
         """Return namedtuple with given data."""
@@ -58,4 +68,10 @@ class CryptopiaFormattedResponse(APIResponse):
 
     def wallet(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json(parse_int=str, parse_float=str)
+        data=data['Data']
+        balances = {}
+        for i in data:
+            if (i['Symbol'] == 'BTC') or (float(i['Available']) > 0):
+                balances[i['Symbol']] = float(i['Available'])
+        return super(CryptopiaFormattedResponse, self).wallet(balances, self.received_at)
