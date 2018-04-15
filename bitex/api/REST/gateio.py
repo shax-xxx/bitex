@@ -67,6 +67,7 @@ class GateioREST(RESTAPI):
         """Sign the request."""
         req_kwargs = super(GateioREST, self).sign_request_kwargs(endpoint, **kwargs)
 
+        req_kwargs.pop('json')  # req_kwargs can not include json, or will 'Error: invalid data'
         # Parameters go into headers & data, so pop params key and generate signature
         params = req_kwargs.pop('params')
 
