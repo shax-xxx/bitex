@@ -29,7 +29,7 @@ log = logging.getLogger(__name__)
 try:
     tests_folder_dir = os.environ['TRAVIS_BUILD_DIR'] + '/tests/'
 except KeyError:
-    tests_folder_dir = '.'
+    tests_folder_dir = os.path.split(os.path.realpath(__file__))[0]
 
 
 class BaseAPITests(TestCase):
@@ -203,7 +203,8 @@ class RESTAPITests(TestCase):
         with mock.patch.object(requests, 'request') as mock_request:
             mock_request.return_value = requests.Response()
             resp = RESTAPI('http://test.com')._query('GET', url='https://api.kraken.com/0/public/Time')
-            mock_request.assert_called_once_with('GET', timeout=10, url='https://api.kraken.com/0/public/Time')
+            mock_request.assert_called_once_with('GET', proxies=None, timeout=10,
+                                                 url='https://api.kraken.com/0/public/Time')
             self.assertIsInstance(resp, requests.Response)
 
 

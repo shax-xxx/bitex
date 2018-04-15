@@ -25,7 +25,7 @@ class BaseAPI:
     extended in subclasses to cover any additional parameters that are necessary.
     """
 
-    def __init__(self, *, addr, key, secret, version, config, proxies):
+    def __init__(self, *, addr, key, secret, version, config, proxies=None):
         """
         Initialize a BaseAPI instance.
 
