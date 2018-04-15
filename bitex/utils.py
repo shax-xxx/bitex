@@ -53,8 +53,9 @@ def check_and_format_pair(func):
     @wraps(func)
     def wrapped(self, *args, **kwargs):
         """Wrap function."""
-        # print(args)
         pair, *remaining_args = args
+        if isinstance(pair, str) and '_' in pair:
+            pair = PairFormatter(pair.split('_')[0], pair.split('_')[1])
         try:
             if isinstance(pair, PairFormatter):
                 pair = pair.format_for(self.name)
