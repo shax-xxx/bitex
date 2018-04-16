@@ -222,6 +222,8 @@ class PairFormatter:
             As theses symbols have their own markets (several currencies are quoted in them),
             they must be handled accordingly.
         """
+        if quote == 'USD':
+            quote = 'USDT'
         if ((quote == 'BTC') or (quote == 'USDT') or
                 (quote == 'XMR' and not (base == 'BTC' or base == 'USDT'))):
             return quote + '_' + base
