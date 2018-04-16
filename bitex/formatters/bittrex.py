@@ -54,12 +54,11 @@ class BittrexFormattedResponse(APIResponse):
         timestamp = datetime.utcnow()
         for trade in data:
             tradelst.append({'id': trade['Id'], 'price': trade['Price'], 'qty': trade['Quantity'],
-                             'time': timetrans(trade['TimeStamp'],'timestamp')*1000,
+                             'time': timetrans(trade['TimeStamp'], 'timestamp')*1000,
                              'isBuyerMaker': trade['OrderType'] == 'BUY', 'isBestMatch': None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError
         return super(BittrexFormattedResponse, self).trades(tradelst, timestamp)
-        raise NotImplementedError
 
     def bid(self):
         """Return namedtuple with given data."""
@@ -89,4 +88,3 @@ class BittrexFormattedResponse(APIResponse):
             balances[i['Currency']] = float(i['Available'])
 
         return super(BittrexFormattedResponse, self).wallet(balances, self.received_at)
-        raise NotImplementedError

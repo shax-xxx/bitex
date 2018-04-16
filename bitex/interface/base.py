@@ -28,6 +28,11 @@ class Interface(metaclass=abc.ABCMeta):
         except NotImplementedError:
             self._supported_pairs = None
 
+        try:
+            self._supported_pairs_formatted = self._get_supported_pairs_formatted()
+        except NotImplementedError:
+            self._supported_pairs_formatted = None
+
     @property
     def supported_pairs(self):
         """
@@ -36,6 +41,15 @@ class Interface(metaclass=abc.ABCMeta):
         :return: list
         """
         return self._supported_pairs
+
+    @property
+    def supported_pairs_formatted(self):
+        """
+        Return a list of supported currncy pairs.
+
+        :return: list
+        """
+        return self._supported_pairs_formatted
 
     @abc.abstractmethod
     def _get_supported_pairs(self):
@@ -51,6 +65,17 @@ class Interface(metaclass=abc.ABCMeta):
         :raises: NotImplementedError
         """
         raise NotImplementedError
+
+    def _get_supported_pairs_formatted(self):
+        """Return a list of supported pairs."""
+        pairs = self._get_supported_pairs()
+        pairs_formatted = []
+        for pair in pairs:
+            if '_' in pair:
+                pairs_formatted.append(pair.upper())
+            else:
+                pairs_formatted.append((pair[:-3] + '_' + pair[-3:]).upper())
+        return pairs_formatted
 
     def is_supported(self, pair):
         """

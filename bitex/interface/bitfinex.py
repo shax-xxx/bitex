@@ -59,6 +59,17 @@ class Bitfinex(RESTInterface):
                 ret.append(i.upper())
         return ret
 
+    def _get_supported_pairs_formatted(self):
+        """Return a list of supported pairs."""
+        pairs = self._get_supported_pairs()
+        pairs_formatted = []
+        for pair in pairs:
+            base = pair[:-3]
+            if base == 'DSH':
+                base = 'DASH'
+            pairs_formatted.append((base + '_' + pair[-3:]).upper())
+        return pairs_formatted
+
     ###############
     # Basic Methods
     ###############

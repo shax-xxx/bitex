@@ -29,6 +29,17 @@ class Gateio(RESTInterface):
         resp = self.request('data.gateio.io/api2/1/pairs/')
         return [pair for pair in resp.json()]
 
+    def _get_supported_pairs_formatted(self):
+        """Return a list of supported pairs."""
+        pairs_formatted = []
+        pairs = self._get_supported_pairs()
+        for pair in pairs:
+            pair = pair.upper()
+            if pair[-4:] == 'USDT':
+                pair = pair[:-1]
+            pairs_formatted.append(pair)
+        return pairs_formatted
+
     def request(self, endpoint, authenticate=False, **kwargs):
         """Generate a request to the API."""
         verb = 'POST' if authenticate else 'GET'

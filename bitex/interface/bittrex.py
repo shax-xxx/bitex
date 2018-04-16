@@ -35,6 +35,16 @@ class Bittrex(RESTInterface):
         pairs = [item['MarketName'] for item in r['result']]
         return pairs
 
+    def _get_supported_pairs_formatted(self):
+        """Return a list of supported pairs."""
+        pairs = self._get_supported_pairs()
+        pairs_formatted = []
+        for pair in pairs:
+            base, quote = pair.split('-')
+            base = 'USD' if base == 'USDT' else base
+            pairs_formatted.append(quote + '_' + base)
+        return pairs_formatted
+
     ###############
     # Basic Methods
     ###############

@@ -110,10 +110,16 @@ def timetrans(atime, tgttype):
     if isinstance(atime, str):
         if atime == 'now':
             dtdt = datetime.utcnow()
-        elif len(atime) > 19:
-            dtdt = datetime.strptime(atime, '%Y-%m-%d %H:%M:%S.%f')
+        elif '.' in atime:
+            if 'T' in atime:
+                dtdt = datetime.strptime(atime, '%Y-%m-%dT%H:%M:%S.%f')
+            else:
+                dtdt = datetime.strptime(atime, '%Y-%m-%d %H:%M:%S.%f')
         else:
-            dtdt = datetime.strptime(atime, '%Y-%m-%d %H:%M:%S')
+            if 'T' in atime:
+                dtdt = datetime.strptime(atime, '%Y-%m-%dT%H:%M:%S')
+            else:
+                dtdt = datetime.strptime(atime, '%Y-%m-%d %H:%M:%S')
     elif isinstance(atime, datetime):
         dtdt = atime
     else:   # float timestamp

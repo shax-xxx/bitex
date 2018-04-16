@@ -43,6 +43,21 @@ class Poloniex(RESTInterface):
         resp = self.request("returnTicker")
         return list(resp.json().keys())
 
+    def _get_supported_pairs_formatted(self):
+        """Return a list of supported pairs."""
+        pairs = self._get_supported_pairs()
+        pairs_formatted = []
+        for pair in pairs:
+            base, quote = pair.split('_')
+
+            if ((base == 'BTC') or (base == 'USDT') or
+                    (base == 'XMR' and not (quote == 'BTC' or quote == 'USDT'))):
+                pair = quote + '_' + base
+            else:
+                pair = base + '_' + quote
+            pairs_formatted.append(pair)
+        return pairs_formatted
+
     # Public Endpoints
 
     @check_and_format_pair

@@ -31,6 +31,14 @@ class Bithumb(RESTInterface):
                  'EOS']
         return pairs
 
+    def _get_supported_pairs_formatted(self):
+        """Return a list of supported pairs."""
+        pairs = self._get_supported_pairs()
+        pairs_formatted = []
+        for pair in pairs:
+            pairs_formatted.append(pair.upper() + '_KRW')
+        return pairs_formatted
+
     ###############
     # Basic Methods
     ###############

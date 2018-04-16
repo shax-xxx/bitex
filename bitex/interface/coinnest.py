@@ -32,6 +32,14 @@ class Coinnest(RESTInterface):
                  "ink", "oc", "hlc", "ent", "qbt", "spc", "put", "hotc"]
         return pairs
 
+    def _get_supported_pairs_formatted(self):
+        """Return a list of supported pairs."""
+        pairs = self._get_supported_pairs()
+        pairs_formatted = []
+        for pair in pairs:
+            pairs_formatted.append(pair.upper() + '_KRW')
+        return pairs_formatted
+
     def request(self, endpoint, authenticate=False, **kwargs):
         """Generate a request to the API."""
         verb = 'POST' if authenticate else 'GET'

@@ -25,6 +25,10 @@ class Kraken(RESTInterface):
         return [r[k]['base'] + r[k]['quote'] if r[k]['base'] != 'BCH'
                 else k for k in r]
 
+    def _get_supported_pairs_formatted(self):
+        """Return a list of supported pairs."""
+        raise NotImplementedError
+
     # pylint: disable=arguments-differ
     def request(self, endpoint, authenticate=False, **req_kwargs):
         """Generate a request to the API."""

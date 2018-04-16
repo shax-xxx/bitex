@@ -35,6 +35,20 @@ class Binance(RESTInterface):
         pairs = [entry['symbol'] for entry in r['symbols']]
         return pairs
 
+    def _get_supported_pairs_formatted(self):
+        """Return a list of supported pairs."""
+        pairs = self._get_supported_pairs()
+        pairs_formatted = []
+        for pair in pairs:
+            if pair[-4:] == 'USDT':
+                base = pair[:-4]
+                quote = 'USD'
+            else:
+                base = pair[:-3]
+                quote = pair[-3:]
+            pairs_formatted.append((base + '_' + quote).upper())
+        return pairs_formatted
+
     @check_and_format_pair
     @format_with(BinanceFormattedResponse)
     def ticker(self, pair, *args, **kwargs):
