@@ -28,7 +28,7 @@ class PairTests(unittest.TestCase):
         self.assertEqual(pair.format_for('Gemini'), 'btcusd')
         self.assertEqual(pair.format_for('Yunbi'), 'btcusd')
         self.assertEqual(pair.format_for('The Rock Trading Ltd.'), 'BTCUSD')
-        self.assertEqual(pair.format_for('Poloniex'), 'BTC_USD')
+        self.assertEqual(pair.format_for('Poloniex'), 'USDT_BTC')
         self.assertEqual(pair.format_for('Quoine'), 'BTCUSD')
         self.assertEqual(pair.format_for('QuadrigaCX'), 'btc_usd')
         self.assertEqual(pair.format_for('HitBTC'), 'BTCUSD')
