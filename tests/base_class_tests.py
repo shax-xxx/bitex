@@ -135,7 +135,7 @@ class BaseAPITests(TestCase):
 
         with mock.patch.object(warnings, 'warn') as mock_warn:
             BaseAPI(config='%s/configs/config_empty.ini' % tests_folder_dir,
-                    key=None, secret=None, addr=None, version=None)
+                    key=None, secret=None, addr=None, version=None, proxies=None)
             mock_warn.assert_any_call(*no_key_warning_args)
             mock_warn.assert_any_call(*no_secret_warning_args)
             mock_warn.assert_any_call(*no_address_warning_args)
