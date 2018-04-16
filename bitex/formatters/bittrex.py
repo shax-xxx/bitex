@@ -7,6 +7,7 @@ import pytz
 
 # Import Home-brewed
 from bitex.formatters.base import APIResponse
+from bitex.utils import timetrans
 
 
 class BittrexFormattedResponse(APIResponse):
@@ -36,10 +37,28 @@ class BittrexFormattedResponse(APIResponse):
 
     def order_book(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()['result']
+        asks = []
+        bids = []
+        for i in data['sell']:
+            asks.append([float(i['Rate']), float(i['Quantity'])])
+        for i in data['buy']:
+            bids.append([float(i['Rate']), float(i['Quantity'])])
+
+        return super(BittrexFormattedResponse, self).order_book(bids, asks, datetime.utcnow())
 
     def trades(self):
         """Return namedtuple with given data."""
+        data = self.json()['result']
+        tradelst = []
+        timestamp = datetime.utcnow()
+        for trade in data:
+            tradelst.append({'id': trade['Id'], 'price': trade['Price'], 'qty': trade['Quantity'],
+                             'time': timetrans(trade['TimeStamp'],'timestamp')*1000,
+                             'isBuyerMaker': trade['OrderType'] == 'BUY', 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(BittrexFormattedResponse, self).trades(tradelst, timestamp)
         raise NotImplementedError
 
     def bid(self):
@@ -64,4 +83,10 @@ class BittrexFormattedResponse(APIResponse):
 
     def wallet(self):
         """Return namedtuple with given data."""
+        data = self.json(parse_int=str, parse_float=str)['result']
+        balances = {}
+        for i in data:
+            balances[i['Currency']] = float(i['Available'])
+
+        return super(BittrexFormattedResponse, self).wallet(balances, self.received_at)
         raise NotImplementedError

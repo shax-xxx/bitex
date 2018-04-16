@@ -20,13 +20,13 @@ class BittrexREST(RESTAPI):
     """Bittrex REST API class."""
 
     def __init__(self, key=None, secret=None, version=None,
-                 addr=None, timeout=5, config=None):
+                 addr=None, timeout=5, config=None, user_id=None, proxies=None):
         """Initialize the class instance."""
         version = 'v1.1' if not version else version
         addr = 'https://bittrex.com/api' if not addr else addr
         super(BittrexREST, self).__init__(addr=addr, version=version, key=key,
                                           secret=secret, timeout=timeout,
-                                          config=config)
+                                          config=config, proxies=proxies)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request.
