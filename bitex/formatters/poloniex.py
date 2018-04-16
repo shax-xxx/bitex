@@ -4,6 +4,7 @@ from datetime import datetime
 
 # Import Home-brewed
 from bitex.formatters.base import APIResponse
+from bitex.utils import timetrans
 
 
 class PoloniexFormattedResponse(APIResponse):
@@ -34,11 +35,29 @@ class PoloniexFormattedResponse(APIResponse):
 
     def order_book(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()
+        asks = []
+        bids = []
+        for i in data['asks']:
+            asks.append([float(i[0]), float(i[1])])
+        for i in data['bids']:
+            bids.append([float(i[0]), float(i[1])])
+
+        return super(PoloniexFormattedResponse, self).order_book(bids, asks,
+                                                                 timetrans('now','timestamp'))
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()
+        tradelst = []
+        timestamp = datetime.utcnow()
+        for trade in data:
+            tradelst.append({'id': trade['tradeID'], 'price': trade['rate'], 'qty': trade['amount'],
+                             'time': int(timetrans(trade['date'],'timestamp')*1000),
+                             'isBuyerMaker': trade['type'] == 'buy', 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(PoloniexFormattedResponse, self).trades(tradelst, timestamp)
 
     def bid(self):
         """Return namedtuple with given data."""

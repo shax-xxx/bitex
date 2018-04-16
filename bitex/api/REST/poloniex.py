@@ -25,12 +25,12 @@ class PoloniexREST(RESTAPI):
     """Poloniex REST API class."""
 
     def __init__(self, key=None, secret=None, version=None, config=None,
-                 addr=None, timeout=5):
+                 addr=None, timeout=5, user_id=None, proxies=None):
         """Initialize the class instance."""
         addr = 'https://poloniex.com' if not addr else addr
         super(PoloniexREST, self).__init__(addr=addr, version=version,
                                            key=key, secret=secret,
-                                           timeout=timeout, config=config)
+                                           timeout=timeout, config=config, proxies=proxies)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""
