@@ -28,11 +28,28 @@ class OKCoinFormattedResponse(APIResponse):
 
     def order_book(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()
+        asks = []
+        bids = []
+        for i in data['asks'][::-1]:
+            asks.append([float(i[0]), float(i[1])])
+        for i in data['bids']:
+            bids.append([float(i[0]), float(i[1])])
+
+        return super(OKCoinFormattedResponse, self).order_book(bids, asks, datetime.utcnow())
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()
+        tradelst = []
+        timestamp = datetime.utcnow()
+        for trade in data:
+            tradelst.append({'id': trade['tid'], 'price': trade['price'],
+                             'qty': trade['amount'], 'time': trade['date_ms'],
+                             'isBuyerMaker': trade['type'] == 'buy', 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(OKCoinFormattedResponse, self).trades(tradelst, timestamp)
 
     def bid(self):
         """Return namedtuple with given data."""
@@ -56,4 +73,8 @@ class OKCoinFormattedResponse(APIResponse):
 
     def wallet(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json(parse_int=str, parse_float=str)['info']['funds']['free']
+        balances = {}
+        for i in data:
+            balances[i.upper()] = data[i]
+        return super(OKCoinFormattedResponse, self).wallet(balances, self.received_at)
