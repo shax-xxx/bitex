@@ -49,6 +49,7 @@ class PairFormatter:
                            'GDAX': self.gdax_formatter,
                            'ITBit': self.itbit_formatter,
                            'OKCoin': self.okcoin_formatter,
+                           'OKex': self.okex_formatter,
                            'C-CEX': self.ccex_formatter,
                            'Cryptopia': self.cryptopia_formatter,
                            'Gemini': self.gemini_formatter,
@@ -187,6 +188,14 @@ class PairFormatter:
     @staticmethod
     def okcoin_formatter(base, quote):
         """Format currencies for OKCoin."""
+        return base.lower() + '_' + quote.lower()
+
+    @staticmethod
+    def okex_formatter(base, quote):
+        """Format currencies for OKCoin."""
+        if quote == 'USD':
+            quote = 'USDT'
+
         return base.lower() + '_' + quote.lower()
 
     @staticmethod
