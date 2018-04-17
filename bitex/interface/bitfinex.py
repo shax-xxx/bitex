@@ -91,7 +91,7 @@ class Bitfinex(RESTInterface):
         self.is_supported(pair)
         if self.REST.version == 'v1':
             return self.request('pubticker/%s' % pair)
-        return self.request('ticker/%s' % pair, params=endpoint_kwargs)
+        return self.request('ticker/t%s' % pair, params=endpoint_kwargs)
 
     @check_and_format_pair
     @format_with(BitfinexFormattedResponse)
@@ -100,7 +100,7 @@ class Bitfinex(RESTInterface):
         self.is_supported(pair)
         if self.REST.version == 'v1':
             return self.request('trades/%s' % pair, params=endpoint_kwargs)
-        return self.request('trades/%s/hist' % pair, params=endpoint_kwargs)
+        return self.request('trades/t%s/hist' % pair, params=endpoint_kwargs)
 
     @check_and_format_pair
     @format_with(BitfinexFormattedResponse)
