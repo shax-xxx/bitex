@@ -1,7 +1,7 @@
-"""Bitstamp REST API backend.
+"""OKCoin REST API backend.
 
 Documentation available here:
-    https://www.bitstamp.net/api/
+    https://support.okcoin.com/hc/zh-cn/sections/360000167711
 """
 # Import Built-ins
 import logging
@@ -20,13 +20,13 @@ class OKCoinREST(RESTAPI):
     """OKCoin REST API class."""
 
     def __init__(self, key=None, secret=None, version=None, config=None,
-                 addr=None, timeout=5):
+                 addr=None, timeout=5, user_id=None, proxies=None):
         """Initialize the class instance."""
         version = 'v1' if not version else version
         addr = 'https://www.okcoin.com/api' if not addr else addr
         super(OKCoinREST, self).__init__(addr=addr, version=version,
                                          key=key, secret=secret, config=config,
-                                         timeout=timeout)
+                                         timeout=timeout, proxies=proxies)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request.
