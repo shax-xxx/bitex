@@ -27,7 +27,22 @@ class Kraken(RESTInterface):
 
     def _get_supported_pairs_formatted(self):
         """Return a list of supported pairs."""
-        raise NotImplementedError
+        pairs = self._get_supported_pairs()
+        pairs_formatted = []
+        for pair in pairs:
+            if pair[:3] == 'BCH':
+                base, quote = pair[:3], pair[3:]
+            elif pair[-3:] == 'BCH':
+                base, quote = pair[:-3], pair[-3:]
+            else:
+                base, quote = pair[:-4], pair[-4:]
+                base = base[1:] if base[0] == 'Z' or base[0] == 'X' else base
+                quote = quote[1:] if quote[0] == 'Z' or quote[0] == 'X' else quote
+            base = 'BTC' if base == 'XBT' else base
+            quote = 'BTC' if quote == 'XBT' else quote
+            pairs_formatted.append((base + '_' + quote).upper())
+
+        return pairs_formatted
 
     # pylint: disable=arguments-differ
     def request(self, endpoint, authenticate=False, **req_kwargs):
